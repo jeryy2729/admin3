@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Arr;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
@@ -43,7 +44,7 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
 
-        $guard = \Arr::get($exception->guards(), 0);
+$guard = Arr::get($exception->guards(), 0);
 
         switch ($guard) {
 
@@ -52,7 +53,7 @@ class Handler extends ExceptionHandler
                 break;
         
             default:
-                $redirect = "/";
+                $redirect = "login";
                 break;
         }
         return $request->expectsJson()

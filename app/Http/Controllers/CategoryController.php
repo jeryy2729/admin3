@@ -31,8 +31,8 @@ public function index(Request $request)
 
     $categories = Category::query()
         ->when($search, function ($q, $search) {
-            $q->where('name', 'LIKE', "%{$search}%")
-              ->orWhere('description', 'LIKE', "%{$search}%");
+            $q->where('name', 'LIKE', "%{$search}%");
+            //   ->orWhere('description', 'LIKE', "%{$search}%");
         })
         ->where('status', 1)
         ->withCount('posts')

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered; // ✅ This is needed
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -31,10 +32,12 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        event(new Registered($user));
 
-        auth()->login($user);
+        // auth()->login($user);
 
-        return redirect()->route('frontend.index');
+        // return redirect()->route('frontend.index');
+        return redirect()->route('verification.notice');
     }
 
 }

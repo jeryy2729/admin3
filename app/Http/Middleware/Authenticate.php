@@ -14,12 +14,15 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
 {
-    if (! $request->expectsJson()) {
-        if ($request->is('admin') || $request->is('admin/*')) {
-            return route('admin.login'); // ✅ admin routes fallback
+          if (!Auth::check()) {
+            if ($request->is('admin') || $request->is('admin/*')) {
+                return redirect()->route('admin.login');
+            }
+
+            return redirect()->route('login');
         }
-        return route('login'); // ✅ user routes fallback
+
+        return $next($request);
     }
-}
 
 }

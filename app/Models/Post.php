@@ -29,6 +29,11 @@ class Post extends Model
     {
         return $this->belongsToMany(Tag::class); // Uses post_tag table
     }
+    public function comments()
+{
+    return $this->hasMany(Comment::class, 'post_id')->latest();
+}
+
 
     // tags => belongsToMany -> pivot table -> without model
 }

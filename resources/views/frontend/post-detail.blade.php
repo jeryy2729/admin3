@@ -5,7 +5,7 @@
     <div class="container-fluid px-0">
         <div class="row g-0">
 
-            {{-- Sidebar (Left Side) --}}
+            {{-- Left Sidebar --}}
             <div class="col-md-3 border-end px-4 py-4 bg-light">
                 <div class="sticky-top" style="top: 80px">
                     <h5 class="mb-3 border-bottom pb-2 fw-bold text-dark">📁 Categories</h5>
@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            {{-- Main Content (Right Side) --}}
+            {{-- Right Main Content --}}
             <div class="col-md-9 px-4 py-5">
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-5">
@@ -59,10 +59,44 @@
                         </span>
                     </div>
                 </div>
-            </div>
 
+                {{-- ✅ Comment Section --}}
+                <div class="comments-section mt-5">
+                    <h4 class="mb-4 text-dark fw-bold border-bottom pb-2">💬 Comments</h4>
+
+                    @forelse($post->comments as $comment)
+                        <div class="border rounded p-3 mb-3 bg-white shadow-sm">
+                            <div class="d-flex justify-content-between mb-2">
+                                <strong>{{ $comment->user->name }}</strong>
+                                <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
+                            </div>
+                            <p class="mb-0 text-secondary">{{ $comment->comment }}</p>
+                        </div>
+                    @empty
+                        <p class="text-muted">No comments yet. Be the first to comment!</p>
+                    @endforelse
+<hr class="my-4">
+
+@auth
+    <form action="{{ route('comments.store') }}" method="POST" class="bg-light p-4 rounded shadow-sm">
+        @csrf
+        <input type="hidden" name="post_id" value="{{ $post->id }}">
+
+        <div class="mb-3">
+            <textarea name="comment" class="form-control" rows="4" placeholder="Write your comment here..." required></textarea>
         </div>
-    </div>
+
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+    </form>
+@else
+    <p><a href="{{ route('login') }}">Login</a> to write a comment.</p>
+@endauth
+
+                </div>
+            </div> {{-- END Right Column --}}
+
+        </div> {{-- END Row --}}
+    </div> {{-- END Container --}}
 </div>
 
 {{-- Hover Styling --}}

@@ -49,12 +49,11 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.login') }}">{{ __('Login') }}</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.register') }}">{{ __('Register') }}</a>
-        </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('login') }}">{{ __('User') }}</a>
-        </li>
+@guest
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('login') }}">{{ __('User') }}</a>
+    </li>
+@endguest
 
     @else
         <li class="nav-item dropdown">

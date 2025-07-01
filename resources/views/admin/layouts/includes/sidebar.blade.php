@@ -15,4 +15,14 @@
             <i class="fa-solid fa-file-lines me-1"></i> Post
         </a>
     </li>
+     <li class="nav-item">
+        <a href="{{ route('users.index') }}" class="nav-link text-dark">
+            <i class="fas fa-users me-1"></i> Users
+        </a>
+    </li>
+     <li class="nav-item">
+        <a href="{{ route('comments.index') }}" class="nav-link text-dark">
+            <i class="fas fa-comments me-1"></i> Comments
+        </a>
+    </li>
 </ul>
