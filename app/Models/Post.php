@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class Post extends Model
 {
-    protected $fillable = ['category_id', 'tags','description','status','name'];
+    protected $fillable = ['category_id', 'tags','description','status','name','user_id', 'is_approved'];
 
     // public function getTagListAttribute()
     // {
@@ -33,7 +33,10 @@ class Post extends Model
 {
     return $this->hasMany(Comment::class, 'post_id')->latest();
 }
-
+public function user()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
 
     // tags => belongsToMany -> pivot table -> without model
 }

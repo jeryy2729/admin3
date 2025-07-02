@@ -119,4 +119,14 @@ public function forceDelete($id)
             ->with('error', 'post could not be permanently deleted.');
     }
 }
+
+public function approve($id)
+{
+    $post = Post::findOrFail($id);
+    $post->is_approved = true;
+    $post->save();
+
+    return redirect()->back()->with('success', 'Post approved successfully.');
+}
+
 }

@@ -69,7 +69,9 @@
 				<a class="nav-link" href="{{ route('frontend.tags') }}">Tags <span class="sr-only">(current)</span></a>
 			  </li>
 			  	<li><a class="nav-link" href="{{ route('frontend.categories') }}">Categories</a></li>
-			<li><a class="nav-link" href="{{ route('frontend.post') }}">Blog Post</a></li>
+			 <li><a class="nav-link" href="{{ route('user.posts.index') }}">Blog Post</a></li>
+			 <li><a class="nav-link" href="{{ route('frontend.authpost') }}">Post</a></li>
+
 			 <li class="nav-item dropdown">
           @auth
 <li class="nav-item dropdown">

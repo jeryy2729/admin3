@@ -15,7 +15,7 @@ class PostController extends Controller
 {
     $categories = Category::where('status', 1)
         ->whereHas('posts', function ($q) {
-            $q->where('status', 1); // only if post is active
+            $q->where('status', 1)->where('is_approved',1); // only if post is active
         })
         ->with(['posts' => function ($q) {
             $q->where('status', 1)->latest(); // load only active posts
@@ -25,58 +25,50 @@ class PostController extends Controller
 
     return view('frontend.post', compact('categories'));
 }
+    public function authindex()
+    {
+        $posts = Post::where('user_id', auth()->id())->latest()->get();
+        return view('frontend.posts.index', compact('posts'));
+    }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
-    }
+          $categories = Category::where('status', '1')->get(); // ✅ FILTERED
+        $tags = Tag::where('status', '1')->get();            // ✅ Active tags only
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    return view('frontend.posts.create', compact('categories', 'tags'));
+}
+
     public function store(Request $request)
     {
-        //
-    }
+        $post = Post::create([
+                        'user_id' => auth()->id(),
 
-    /**
-     * Display the specified resource.
-     */
-         public function show($id)
-    {
-        $post = Post::with('category', 'tags')->findOrFail($id);
-        $categories = Category::where('status', 1)->get();
-        $tags = Tag::where('status', 1)->get();
+        'name' => $request->name,
+        'description' => $request->description,
+        'status' => $request->status ?? 0,
+        'category_id' => $request->category_id,
+    ]);
 
-        return view('frontend.post-detail', compact('post', 'categories', 'tags'));
-    }
-  
+    // Attach tags using pivot table
+    $post->tags()->sync($request->tags);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+    return redirect()->route('user.posts.index')->with('success', 'Post created successfully.');
+}
+public function show($id)
+{
+         $post = Post::with(['category', 'tags'])->findOrFail($id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    // All categories and tags for sidebar or filtering
+    $categories = Category::all();
+    $tags = Tag::all();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    return view('frontend.post-detail', [
+        'post' => $post,
+        // 'category' => $post->category,
+        // 'postTags' => $post->tags,
+        'categories' => $categories,
+        'tags' => $tags,
+    ]);
+}
 }

@@ -66,7 +66,6 @@
                                             <span class="badge bg-secondary">Inactive</span>
                                         @endif
                                     </td>
-
                     <td>
                         @if ($showTrashed)
     {{-- Restore Button --}}
@@ -98,19 +97,6 @@
             @empty
                 <tr><td colspan="5">No posts found.</td></tr>
             @endforelse
-                                                                    <td>
-                        @if($post->user_id) {{-- Only show if created by user --}}
-    <form method="POST" action="{{ route('admin.posts.approve', $post->id) }}">
-        @csrf
-        @method('PATCH')
-        <button type="submit" class="btn btn-sm btn-primary">Approve</button>
-    </form>
-@else
-    <span class="text-muted">No Action</span>
-@endif
-
-                    </td>
-
         </tbody>
     </table>
     <div class="mt-3">

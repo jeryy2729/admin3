@@ -47,6 +47,8 @@ Route::get('/users', [UsersController::class, 'index'])->name('users.index');
         Route::resource('posts', PostsController::class);
         Route::put('posts/restore/{id}', [PostsController::class, 'restore'])->name('posts.restore');
         Route::delete('posts/force-delete/{id}', [PostsController::class, 'forceDelete'])->name('posts.forceDelete');
+   Route::patch('posts/{id}/approve', [PostsController::class, 'approve'])->name('admin.posts.approve');
+
     });
 });
 
@@ -59,6 +61,10 @@ Route::get('/about', [AboutController::class, 'index'])->name('frontend.about');
 // Protected Routes - Only for Logged-In & Verified Users
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/front', [FrontendController::class, 'index'])->name('frontend.index');
+Route::prefix('user')->name('user.')->group(function () {
+    Route::resource('posts', PostController::class);
+});
+    Route::get('/authposts', [PostController::class, 'authindex'])->name('frontend.authpost');
 
     Route::get('/posts', [PostController::class, 'index'])->name('frontend.post');
     Route::get('/post/{id}', [PostController::class, 'show'])->name('frontend.post-detail');
