@@ -23,12 +23,14 @@ class PostController extends Controller
         ->paginate(3)
         ->appends($request->all());
 
-    return view('frontend.post', compact('categories'));
+    return view('frontend.posts.index', compact('categories'));
 }
     public function authindex()
     {
-        $posts = Post::where('user_id', auth()->id())->latest()->get();
-        return view('frontend.posts.index', compact('posts'));
+$posts = Post::where('user_id', auth()->id())  // Filter posts by logged-in user
+    ->latest()  // Order by latest posts
+    ->paginate(3);  // Paginate the results (3 posts per page)
+        return view('frontend.posts.authindex', compact('posts'));
     }
 
     public function create()

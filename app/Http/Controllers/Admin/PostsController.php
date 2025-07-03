@@ -60,6 +60,7 @@ public function index(Request $request)
         'description' => $request->description,
         'status' => $request->status ?? 0,
         'category_id' => $request->category_id,
+        'user_id' => null,
     ]);
 
     // Attach tags using pivot table

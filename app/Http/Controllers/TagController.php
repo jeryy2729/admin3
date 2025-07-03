@@ -29,7 +29,7 @@ class TagController extends Controller
 {
     $tags = Tag::where('status', 1)
         ->whereHas('posts', function ($q) {
-            $q->where('status', 1); // only if post is active
+            $q->where('status', 1)->where('is_approved',1); // only if post is active
         })
         ->with(['posts' => function ($q) {
             $q->where('status', 1)->latest(); // load only active posts

@@ -1,90 +1,50 @@
 @extends('frontend.layouts.main')
 
 @section('main-container')
-<div class="container">
-    <h2 class="mb-4">Posts List</h2>
+<div class="main-wrapper">
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            {{-- Sidebar --}}
+            @include('frontend.layouts.sidebar')
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-        <a href="{{ route('user.posts.create') }}" class="btn btn-primary mb-3">Create New Post</a>
+            <div class="col-md-9 px-4 py-4">
+                <h1 class="mb-5 text-center fw-bold">Posts Grouped by Categories</h1>
 
+                {{-- Loop through paginated categories --}}
+                @forelse($categories as $category)
+                    <div class="mb-5">
+                        <h3 class="border-start border-4 border-primary ps-3 text-dark">{{ $category->name }}</h3>
+                        <hr>
 
- <form method="GET" action="{{ route('user.posts.index') }}" class="mb-3">
-                       
+                        {{-- Show related posts of this category --}}
+                        @forelse($category->posts as $post)
+                            <div class="mb-3 p-3 border rounded shadow-sm bg-white">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="mb-0">
+                                        <a href="{{ route('frontend.post-detail', $post->id) }}" class="text-decoration-none text-primary">
+                                            {{ $post->name }}
+                                        </a>
+                                    </h5>
+                                    <span class="badge {{ $post->status ? 'bg-success' : 'bg-secondary' }}">
+                                        {{ $post->status ? 'Active' : 'Inactive' }}
+                                    </span>
+                                </div>
+                                <p class="mb-0">{{ Str::limit($post->description, 150) }}</p>
+                            </div>
+                        @empty
+                            <p class="text-muted">No posts found in this category.</p>
+                        @endforelse
+                    </div>
+                @empty
+                    <p>No categories available.</p>
+                @endforelse
 
-                    @if ($message = Session::get('success'))
-                        <div class="alert alert-blue">
-                            <p class="mb-0">{{ $message }}</p>
-                        </div>
-                    @endif
-
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>#</th>
-                
-                <th>Category</th>
-                <th>Name</th>
- 
-                <th>Tags</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                <th>Approval</th>  
-                                </tr>
-        </thead>
-        <tbody>
-            @forelse($posts as $index => $post)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    
-                    <td>{{ $post->category->name ?? 'N/A' }}</td>
-                    <td>{{$post->name}}
-                                      <td>
-                        @foreach($post->tags as $tag)
-                            <span class="badge bg-info text-dark">{{ $tag->name }}</span>
-                        @endforeach
-                    </td>
-   <td>{{ $post->description }}</td>
-                                    <td>
-                                        @if($post->status)
-                                            <span class="badge bg-success">Active</span>
-                                        @else
-                                            <span class="badge bg-secondary">Inactive</span>
-                                        @endif
-                                    </td>
-  <td> @if($post->is_approved)
-                                            <span class="badge bg-success">Approved</span>
-                                        @else
-                                            <span class="badge bg-secondary">Unapproved</span>
-                                        @endif
-                                    </td>
-                    <td>
-                    
-            @empty
-                <tr><td colspan="5">No posts found.</td></tr>
-            @endforelse
-                                                                    
-
-        </tbody>
-    </table>
-    <div class="mt-3">
-
-</div>
+                {{-- ✅ PAGINATION (for categories) --}}
+                <div class="mt-4">
+                    {{ $categories->onEachSide(1)->links('pagination::bootstrap-4') }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
-
-@push('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        // Don't use DataTables since we use Laravel's pagination
-        $('select').select2({
-            width: '100%'
-        });
-    });
-</script>
-@endpush

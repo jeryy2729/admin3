@@ -7,7 +7,6 @@
                 <a href="{{ url('/front') }}" class="d-block px-2 py-1 rounded text-dark text-decoration-none hover-effect">🏠 Home</a>
             </li>
             <li class="mb-2">
-                <!-- <a href="{{ route('frontend.post') }}" class="d-block px-2 py-1 rounded text-dark text-decoration-none hover-effect">📝 Posts</a> -->
             </li>
             <li class="mb-2">
                 <a href="{{ route('frontend.categories') }}" class="d-block px-2 py-1 rounded text-dark text-decoration-none hover-effect">📁 Categories</a>

@@ -20,6 +20,7 @@
                                     <th>Post</th>
                                     <th>Comment</th>
                                     <th>Posted At</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -30,6 +31,12 @@
                                         <td>{{ $comment->post->name ?? 'Deleted Post' }}</td>
                                         <td>{{ Str::limit($comment->comment, 100) }}</td>
                                         <td>{{ $comment->created_at->diffForHumans() }}</td>
+                                        <td>    <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this comment?')">Delete</button>
+    </form>
+</td>
                                     </tr>
                                 @empty
                                     <tr>

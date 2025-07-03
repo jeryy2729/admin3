@@ -41,7 +41,9 @@ Route::get('/', function () {
         Route::resource('tags', TagsController::class);
         Route::put('tags/restore/{id}', [TagsController::class, 'restore'])->name('tags.restore');
         Route::delete('tags/force-delete/{id}', [TagsController::class, 'forceDelete'])->name('tags.forceDelete');
-Route::get('/comments', [CommentsController::class, 'index'])->name('comments.index');
+// Route::get('/comments', [CommentsController::class, 'index'])->name('comments.index');
+        Route::resource('comments', CommentsController::class);
+
 Route::get('/users', [UsersController::class, 'index'])->name('users.index');
 
         Route::resource('posts', PostsController::class);
@@ -66,7 +68,6 @@ Route::prefix('user')->name('user.')->group(function () {
 });
     Route::get('/authposts', [PostController::class, 'authindex'])->name('frontend.authpost');
 
-    Route::get('/posts', [PostController::class, 'index'])->name('frontend.post');
     Route::get('/post/{id}', [PostController::class, 'show'])->name('frontend.post-detail');
 
     Route::get('/categories', [CategoryController::class, 'index'])->name('frontend.categories');

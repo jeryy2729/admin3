@@ -111,7 +111,6 @@
 						<li><a class="dropdown-item" href="{{ route('frontend.categories') }}">Categories</a></li>
 						<li><a class="dropdown-item" href="blog-sidebar.html">Blog with Sidebar</a></li>
 
-						<li><a class="dropdown-item" href="{{ route('frontend.post') }}">Blog Post</a></li>
 					</ul>
 			  </li> -->
 			   <!-- <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li> -->

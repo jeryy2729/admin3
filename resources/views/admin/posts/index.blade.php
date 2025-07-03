@@ -44,6 +44,7 @@
                 <th>Tags</th>
                                     <th>Description</th>
                                     <th>Status</th>
+                                    <th>Approval</th>
                                     <th width="200px">Action</th>            </tr>
         </thead>
         <tbody>
@@ -66,6 +67,21 @@
                                             <span class="badge bg-secondary">Inactive</span>
                                         @endif
                                     </td>
+<td>
+    @if($post->user_id) {{-- Only show the action if created by a user --}}
+        @if($post->is_approved)
+            <span class="badge bg-success">Approved</span>
+        @else
+            <form method="POST" action="{{ route('admin.posts.approve', $post->id) }}">
+                @csrf
+                @method('PATCH')
+                <button type="submit" class="btn btn-sm btn-primary">Approve</button>
+            </form>
+        @endif
+    @else
+        <span class="text-muted">No Action</span>
+    @endif
+</td>
 
                     <td>
                         @if ($showTrashed)
@@ -98,18 +114,7 @@
             @empty
                 <tr><td colspan="5">No posts found.</td></tr>
             @endforelse
-                                                                    <td>
-                        @if($post->user_id) {{-- Only show if created by user --}}
-    <form method="POST" action="{{ route('admin.posts.approve', $post->id) }}">
-        @csrf
-        @method('PATCH')
-        <button type="submit" class="btn btn-sm btn-primary">Approve</button>
-    </form>
-@else
-    <span class="text-muted">No Action</span>
-@endif
-
-                    </td>
+                                                                  
 
         </tbody>
     </table>
