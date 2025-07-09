@@ -22,6 +22,16 @@
             location.reload(true); // Reload on back navigation
         }
     </script>
+    <style>
+    .bg-gradient-custom {
+        background: linear-gradient(135deg, #6f42c1, #f96d41);
+    }
+    .navbar .dropdown-menu a:hover {
+        background-color: #f8f9fa;
+        color: #f96d41;
+    }
+</style>
+
 </head>
 <body>
     <div id="app">

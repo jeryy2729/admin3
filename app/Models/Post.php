@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class Post extends Model
 {
-    protected $fillable = ['category_id', 'tags','description','status','name','user_id', 'is_approved'];
+    protected $fillable = ['category_id', 'tags','description','status','name','user_id', 'is_approved','slug','image','is_featured'];
 
     // public function getTagListAttribute()
     // {
@@ -39,5 +39,10 @@ public function user()
 }
 
     // tags => belongsToMany -> pivot table -> without model
+    public function getRouteKeyName()
+{
+    return 'slug';
+}
+
 }
 

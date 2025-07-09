@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('tags.update', $tag->id) }}" method="POST">
+                    <form action="{{ route('tags.update', $tag) }}" method="POST">
                         @csrf
                         @method('PUT')
 
@@ -29,7 +29,9 @@
 
                             <div class="form-group col-md-6 mb-3">
                                 <label><strong>Description:</strong></label>
-                                <input type="text" name="description" value="{{ old('description', $tag->description) }}" class="form-control" placeholder="Description">
+<textarea name="description" id="description" class="form-control" rows="6">
+    {{ old('description', $tag->description ?? '') }}
+</textarea>
                                 @error('description')
                                     <div class="alert alert-danger mt-1">{{ $message }}</div>
                                 @enderror
@@ -79,3 +81,16 @@
     }
 </style>
 @endpush -->
+@push('scripts')
+<!-- jQuery (needed for CKEditor events if required) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- CKEditor -->
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<script>
+    $(document).ready(function () {
+        // Initialize CKEditor for description
+        CKEDITOR.replace('description');
+    });
+</script>
+@endpush

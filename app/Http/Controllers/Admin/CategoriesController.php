@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Illuminate\Support\Str; // Make sure this is at the top of the file
 use App\Http\Requests\Categories\CreateRequest; 
 use App\Http\Requests\Categories\UpdateRequest;// ✅ Add this line
 use App\Models\Category;
@@ -48,12 +48,20 @@ public function index(Request $request)
     
     public function store(CreateRequest $request)
     {
-
+    $slug = Str::slug($request->input('name'), '-');
         // $category = Category::create($request->all());
         $category = new Category();
         $category->name = $request->input('name');
+            $category->slug = $slug; // store the slug
+
         $category->description = $request->input('description');
         $category->status = $request->input('status');
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $filename = time() . '_' . $image->getClientOriginalName();
+        $path = $image->storeAs('uploads/categories', $filename, 'public');
+        $category->image = $path;
+    }
 
         if ($category->save()) {
             return redirect()->route('categories.index')->with('success', 'Data has been inserted successfully.');
@@ -62,47 +70,51 @@ public function index(Request $request)
         }
     }
 
-    public function edit(Category $category)
-    {
-        return view('admin.categories.edit', compact('category'));
-    }
-
-    public function update(UpdateRequest $request,Category $category)
-    {
-        
-        // $category = Category::find($id);
-        $category->name = $request->input('name');
-        $category->description = $request->input('description');
-        $category->status = $request->input('status');
-
-        if ($category->update()) {
-            return redirect()->route('categories.index')->with('success', 'Data has been updated successfully.');
-        } else {
-            return redirect()->route('categories.index')->with('error', 'Data has not been updated.');
-        }
-    }
-
-    public function restore($id)
+ public function edit(Category $category)
 {
-    $category = Category::onlyTrashed()->findOrFail($id);
-    $category->restore();
-
-    return redirect()->route('categories.index', ['trashed' => true])->with('success', 'Category restored successfully.');
+    return view('admin.categories.edit', compact('category'));
 }
 
-public function destroy(Category $category)
+public function update(UpdateRequest $request, Category $category)
 {
-    // $category = Category::findOrFail($id);
+    $category->name = $request->input('name');
+    $category->slug = Str::slug($request->input('name'), '-');
+    $category->description = $request->input('description');
+    $category->status = $request->input('status');
+
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $filename = time() . '_' . $image->getClientOriginalName();
+        $path = $image->storeAs('uploads/categories', $filename, 'public');
+        $category->image = $path;
+    }
+
+    if ($category->update()) {
+        return redirect()->route('categories.index')->with('success', 'Data has been updated successfully.');
+    } else {
+        return redirect()->route('categories.index')->with('error', 'Data has not been updated.');
+    }
+}
+ public function destroy(Category $category)
+{
     $category->delete();
 
     return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
 }
 
-
-public function forceDelete($id)
+public function restore($slug)
 {
-    $category = Category::onlyTrashed()->findOrFail($id);
-    
+    $category = Category::onlyTrashed()->where('slug', $slug)->firstOrFail();
+    $category->restore();
+
+    return redirect()->route('categories.index', ['trashed' => true])
+        ->with('success', 'Category restored successfully.');
+}
+
+public function forceDelete($slug)
+{
+    $category = Category::onlyTrashed()->where('slug', $slug)->firstOrFail();
+
     if ($category->forceDelete()) {
         return redirect()->route('categories.index', ['trashed' => true])
             ->with('success', 'Category permanently deleted.');
@@ -110,7 +122,6 @@ public function forceDelete($id)
         return redirect()->route('categories.index', ['trashed' => true])
             ->with('error', 'Category could not be permanently deleted.');
     }
+
 }
-
-
 }

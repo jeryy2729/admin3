@@ -42,7 +42,7 @@
                                   <td>{{ $tag->name }}</td> 
 
                                 
-                                         <td>{{ $tag->description }}</td>
+                                    <td>{!! $tag->description !!}</td>
                                          <td>
                                     
                                         @if($tag->status)
@@ -54,28 +54,28 @@
                                    <td>
                                       @if ($showTrashed)
     {{-- Restore Button --}}
-    <form action="{{ route('tags.restore', $tag->id) }}" method="POST" style="display: inline;">
+    <form action="{{ route('tags.restore', $tag) }}" method="POST" style="display: inline;">
         @csrf
         @method('PUT')
         <button class="btn btn-sm btn-success" onclick="return confirm('Restore this tag?')">Restore</button>
     </form>
 
     {{-- Permanent Delete Button --}}
-    <form action="{{ route('tags.forceDelete', $tag->id) }}" method="POST" style="display:inline;">
+    <form action="{{ route('tags.forceDelete', $tag) }}" method="POST" style="display:inline;">
         @csrf
         @method('DELETE')
         <button class="btn btn-sm btn-danger" onclick="return confirm('Permanently delete this tag?')">Erase</button>
     </form>
 @else
     {{-- Soft Delete --}}
-    <form action="{{ route('tags.destroy', $tag->id) }}" method="POST" style="display:inline;">
+    <form action="{{ route('tags.destroy', $tag) }}" method="POST" style="display:inline;">
         @csrf
         @method('DELETE')
         <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this tag?')">Delete</button>
     </form>
 
     {{-- Edit --}}
-    <form action="{{ route('tags.edit', $tag->id) }}" method="GET" style="display:inline;">
+    <form action="{{ route('tags.edit', $tag) }}" method="GET" style="display:inline;">
         <button class="btn btn-sm btn-blue">Edit</button>
     </form>
 @endif

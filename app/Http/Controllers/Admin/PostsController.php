@@ -1,6 +1,7 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
+
+use Illuminate\Support\Str; // Make sure this is at the top of the file
 use App\Http\Requests\Posts\CreateRequest;
 use App\Http\Requests\Posts\UpdateRequest;
 use App\Models\Post;
@@ -53,14 +54,27 @@ public function index(Request $request)
     // }
 
    public function store(CreateRequest $request)
-{
+{ $slug = Str::slug($request->input('name'), '-');
+         
+$imagePath = null;
+if ($request->hasFile('image')) {
+    $image = $request->file('image');
+    $filename = time() . '_' . $image->getClientOriginalName();
+    $imagePath = $image->storeAs('uploads/posts', $filename, 'public');
+}
+
     // Create the post and store the result in $post
     $post = Post::create([
         'name' => $request->name,
+        'slug' => $slug,
         'description' => $request->description,
         'status' => $request->status ?? 0,
+                'is_featured' => $request->is_featured ?? 0,
+
         'category_id' => $request->category_id,
         'user_id' => null,
+            'image' => $imagePath,
+
     ]);
 
     // Attach tags using pivot table
@@ -78,18 +92,40 @@ public function edit(Post $post)
 }
 
     public function update(UpdateRequest $request, Post $post)
-    {
-        $post->update([
-            
-            'category_id' => $request->category_id,
-               'name' => $request->name,
-  'description' => $request->description,
-  'status' => $request->status,
-        ]);
+{
+    // Prepare data for update
+    $updateData = [
+        'category_id' => $request->category_id,
+        'name' => $request->name,
+        'slug' => Str::slug($request->name, '-'),
+        'description' => $request->description,
+        'status' => $request->status ?? 0,
+                'is_featured' => $request->is_featured ?? 0,
+
+    ];
+
+    // Handle image upload if provided
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $filename = time() . '_' . $image->getClientOriginalName();
+        $path = $image->storeAs('uploads/posts', $filename, 'public');
+
+        // Optional: delete old image from storage
+        // if ($post->image && Storage::disk('public')->exists($post->image)) {
+        //     Storage::disk('public')->delete($post->image);
+        // }
+
+        $updateData['image'] = $path;
+    }
+
+    // Update post
+    $post->update($updateData);
+
+    // Sync tags
     $post->tags()->sync($request->tags);
 
-        return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
-    }
+    return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
+}
 
     public function destroy(Post $post)
     {
@@ -98,20 +134,20 @@ public function edit(Post $post)
 
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
- public function restore($id)
-{
-    $post = Post::onlyTrashed()->findOrFail($id);
+ public function restore($slug)
+{{    $post = Post::onlyTrashed()->where('slug', $slug)->firstOrFail();
+
     $post->restore();
 
     return redirect()->route('posts.index', ['trashed' => true])->with('success', 'Post restored successfully.');
 }
 
 
-
-public function forceDelete($id)
+}
+public function forceDelete($slug)
 {
-    $post = Post::onlyTrashed()->findOrFail($id);
-    
+    $post = Post::onlyTrashed()->where('slug', $slug)->firstOrFail();
+
     if ($post->forceDelete()) {
         return redirect()->route('posts.index', ['trashed' => true])
             ->with('success', 'Post permanently deleted.');
@@ -121,9 +157,9 @@ public function forceDelete($id)
     }
 }
 
-public function approve($id)
+public function approve($slug)
 {
-    $post = Post::findOrFail($id);
+    $post = Post::findOrFail($slug);
     $post->is_approved = true;
     $post->save();
 

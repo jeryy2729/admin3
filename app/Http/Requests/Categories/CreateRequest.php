@@ -27,6 +27,8 @@ class CreateRequest extends FormRequest
             'name' => 'required|string|max:255|unique:categories',
             'description' => 'required|string',
             'status' => 'boolean',
+                    'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB max
+
         ];
         
     }

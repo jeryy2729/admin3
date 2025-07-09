@@ -14,10 +14,16 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
                  $table->unsignedBigInteger('category_id'); // no foreign key constraint
-                $table->string('tags');
+                                        $table->string('name')->nullable(); 
+                                         $table->string('slug')->unique();
+  $table->string('image')->nullable();
+
                  $table->string('description')->nullable();
             $table->boolean('status');
-           
+                               $table->unsignedBigInteger('user_id'); // No foreignId, no constraint
+        $table->boolean('is_approved')->default(false);
+$table->boolean('is_featured')->default(false);
+
              $table->timestamps();
         });
     }

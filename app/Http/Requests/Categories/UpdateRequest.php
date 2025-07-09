@@ -25,6 +25,8 @@ class UpdateRequest extends FormRequest
              'name' => 'required|string|max:255',
             'description' => 'required|string',
             'status' => 'boolean',
+                    'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
         
         ];
     }

@@ -15,7 +15,7 @@ class PostController extends Controller
 {
     $categories = Category::where('status', 1)
         ->whereHas('posts', function ($q) {
-            $q->where('status', 1)->where('is_approved',1); // only if post is active
+            $q->where('status', 1); // only if post is active
         })
         ->with(['posts' => function ($q) {
             $q->where('status', 1)->latest(); // load only active posts
@@ -73,4 +73,19 @@ public function show($id)
         'tags' => $tags,
     ]);
 }
+public function showPublic($slug)
+{
+    $category = Category::where('slug', $slug)->firstOrFail();
+
+    $posts = $category->posts()
+        ->where(function ($query) {
+            $query->whereNull('user_id') // admin post
+                  ->orWhere('is_approved', 1); // approved user post
+        })
+        ->latest()
+        ->paginate(6);
+
+    return view('frontend.post', compact('category', 'posts'));
+}
+
 }

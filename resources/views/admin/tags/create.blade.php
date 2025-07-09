@@ -28,7 +28,7 @@
                             </div>
  <div class="form-group col-md-6">
                                 <label><strong>Description:</strong></label>
-                                <input type="text" name="description" class="form-control" placeholder="Description">
+<textarea name="description" id="description" class="form-control" rows="6"></textarea>
                                 @error('description')
                                     <div class="alert alert-danger mt-1">{{ $message }}</div>
                                 @enderror
@@ -74,3 +74,16 @@
     }
 </style>
 @endpush -->
+@push('scripts')
+<!-- jQuery (needed for CKEditor events if required) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- CKEditor -->
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<script>
+    $(document).ready(function () {
+        // Initialize CKEditor for description
+        CKEDITOR.replace('description');
+    });
+</script>
+@endpush

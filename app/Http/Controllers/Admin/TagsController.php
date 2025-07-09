@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Illuminate\Support\Str; // Make sure this is at the top of the file
 use App\Http\Requests\Tags\CreateRequest; 
 use App\Http\Requests\Tags\UpdateRequest;// ✅ Add this line
 use App\Models\Tag;
@@ -43,10 +43,13 @@ public function index(Request $request)
     
     public function store(CreateRequest $request)
     {
+    $slug = Str::slug($request->input('name'), '-');
 
         // $tag = Tag::create($request->all());
         $tag = new Tag();
         $tag->name = trim(preg_replace('/\s+/', ' ', $request->input('name')));
+                    $tag->slug = $slug; // store the slug
+
  $tag->description = $request->input('description');
         $tag->status = $request->input('status');
 
@@ -69,6 +72,7 @@ public function index(Request $request)
         // $tag = Tag::find($id);
        $tag->name = $request->input('name');
  
+    $tag->slug = Str::slug($request->input('name'), '-');
 
         $tag->description = $request->input('description');
         $tag->status = $request->input('status');
@@ -80,9 +84,9 @@ public function index(Request $request)
         }
     }
 
-    public function restore($id)
-{
-    $tag = Tag::onlyTrashed()->findOrFail($id);
+    public function restore($slug)
+{    $tag = Tag::onlyTrashed()->where('slug', $slug)->firstOrFail();
+
     $tag->restore();
 
     return redirect()->route('tags.index', ['trashed' => true])->with('success', 'Tag restored successfully.');
@@ -97,9 +101,9 @@ public function destroy(Tag $tag)
 }
 
 
-public function forceDelete($id)
-{
-    $tag = Tag::onlyTrashed()->findOrFail($id);
+public function forceDelete($slug)
+{    $tag = Tag::onlyTrashed()->where('slug', $slug)->firstOrFail();
+
     
     if ($tag->forceDelete()) {
         return redirect()->route('tags.index', ['trashed' => true])

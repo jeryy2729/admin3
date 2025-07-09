@@ -9,16 +9,19 @@
             @include('frontend.layouts.sidebar')
 
             {{-- Main Content --}}
-            <div class="col-md-9 px-4 py-4">
-                <h1 class="mb-5 text-center fw-bold">Explore Tags</h1>
+            <div class="col-md-9 px-4 py-5 bg-white">
+                <h2 class="mb-5 text-center fw-bold text-primary">🎯 Explore Popular Tags</h2>
 
                 @if($tags->count())
                     <div class="row">
                         @foreach($tags as $tag)
                             <div class="col-md-4 col-sm-6 mb-4">
                                 <a href="{{ route('frontend.tag-post', $tag->id) }}" class="text-decoration-none">
-                                    <div class="p-4 border rounded shadow-sm bg-light h-100 text-center hover-shadow">
-                                        <h5 class="text-primary mb-0">{{ $tag->name }}</h5>
+                                    <div class="tag-card text-center p-4 rounded-4 shadow-sm h-100 text-white">
+                                        <div class="mb-2">
+                                            <i class="fas fa-tag fa-2x"></i>
+                                        </div>
+                                        <h5 class="fw-semibold">{{ $tag->name }}</h5>
                                     </div>
                                 </a>
                             </div>
@@ -30,11 +33,34 @@
                         {{ $tags->onEachSide(1)->links('pagination::bootstrap-4') }}
                     </div>
                 @else
-                    <p>No tags found.</p>
+                    <p class="text-muted">No tags found.</p>
                 @endif
             </div>
 
         </div>
     </div>
 </div>
+
+{{-- Custom Styles --}}
+<style>
+    .tag-card {
+        background: linear-gradient(135deg, #f96d41, #f9a041);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .tag-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        background: linear-gradient(135deg, #f9a041, #f96d41);
+        text-decoration: none;
+    }
+
+    .tag-card i {
+        color: #fff;
+    }
+
+    .tag-card h5 {
+        margin-top: 10px;
+    }
+</style>
 @endsection

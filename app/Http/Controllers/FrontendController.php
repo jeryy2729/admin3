@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Category;
+use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -15,8 +17,25 @@ class FrontendController extends Controller
     $categories = Category::withCount('posts') // This adds a `posts_count` attribute
                          ->where('status', 1)
                          ->get();
- // Only active categories
-        return view('frontend.index', compact('categories'));
+                               // Featured posts with conditional logic
+    $posts = Post::where('is_featured', 1)
+        ->where('status', 1)
+        ->where(function ($query) {
+            $query->whereNull('user_id') // Admin post
+                  ->orWhere(function ($q) {
+                      $q->whereNotNull('user_id')  // User post
+                        ->where('is_approved', 1); // Only approved
+                  });
+        })
+        ->latest()
+        ->get();
+
+    // Latest 5 comments
+    $recentComments = Comment::latest()->take(5)->get();
+
+    return view('frontend.index', compact('categories', 'posts', 'recentComments'));
+
+        return view('frontend.index', compact('categories','posts','recentComments'));
     }
 
 

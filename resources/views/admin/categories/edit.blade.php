@@ -27,7 +27,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('categories.update', $category->id) }}" method="POST">
+                    <form action="{{ route('categories.update', $category) }}" method="POST">
                         @csrf
                         @method('PUT')
 
@@ -39,10 +39,28 @@
                                     <div class="alert alert-danger mt-1">{{ $message }}</div>
                                 @enderror
                             </div>
+<div class="form-group mb-4">
+    <label><strong>Current Image:</strong></label><br>
+    @if($category->image)
+        <img src="{{ asset('storage/' . $category->image) }}" alt="Category Image" width="120" class="mb-2">
+    @else
+        <p>No image uploaded.</p>
+    @endif
+</div>
+
+<div class="form-group mb-4">
+    <label><strong>Change Image:</strong></label>
+    <input type="file" name="image" class="form-control">
+    @error('image')
+        <div class="alert alert-danger mt-1">{{ $message }}</div>
+    @enderror
+</div>
 
                             <div class="form-group col-md-6">
                                 <label><strong>Description:</strong></label>
-                                <input type="text" name="description" value="{{ old('description', $category->description) }}" class="form-control" placeholder="Description">
+<textarea name="description" id="description" class="form-control" rows="6">
+    {{ old('description', $category->description ?? '') }}
+</textarea>
                                 @error('description')
                                     <div class="alert alert-danger mt-1">{{ $message }}</div>
                                 @enderror
@@ -89,3 +107,16 @@
     }
 </style>
 @endpush 
+@push('scripts')
+<!-- jQuery (needed for CKEditor events if required) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- CKEditor -->
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<script>
+    $(document).ready(function () {
+        // Initialize CKEditor for description
+        CKEDITOR.replace('description');
+    });
+</script>
+@endpush

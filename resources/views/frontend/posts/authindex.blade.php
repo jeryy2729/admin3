@@ -1,75 +1,82 @@
 @extends('frontend.layouts.main')
 
 @section('main-container')
-<div class="container">
-    <h2 class="mb-4">Posts List</h2>
+<div class="main-wrapper">
+    <div class="container-fluid px-0">
+        <div class="row g-0">
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-        <a href="{{ route('user.posts.create') }}" class="btn btn-primary mb-3">Create New Post</a>
+            {{-- Sidebar --}}
+            @include('frontend.layouts.sidebar')
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Category</th>
-                <th>Name</th>
-                <th>Tags</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Approval</th>
-        <tbody>
-            @forelse($posts as $index => $post)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $post->category->name ?? 'N/A' }}</td>
-                    <td>{{ $post->name }}</td>
-                    <td>
-                        @foreach($post->tags as $tag)
-                            <span class="badge bg-info text-dark">{{ $tag->name }}</span>
-                        @endforeach
-                    </td>
-                    <td>{{ Str::limit($post->description, 50) }}</td>  <!-- Limit description length -->
-                    <td>
-                        @if($post->status)
-                            <span class="badge bg-success">Active</span>
-                        @else
-                            <span class="badge bg-secondary">Inactive</span>
-                        @endif
-                    </td>
-                    <td>@if($post->is_approved)
-                        <span class="badge bg-success">Approved</span>
-                        @else
-                            <span class="badge bg-secondary">Unapproved</span>
-                        @endif
-</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="6" class="text-center">No posts available.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+            {{-- Main Content --}}
+            <div class="col-md-9 px-4 py-5 bg-light">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold text-primary">📋 My Posts</h2>
+                    <a href="{{ route('user.posts.create') }}" class="btn btn-success rounded-pill px-4">
+                        <i class="fas fa-plus me-1"></i> Create New Post
+                    </a>
+                </div>
 
-    <!-- Pagination links -->
-    <div class="mt-3">
-        {{ $posts->withQueryString()->onEachSide(1)->links('pagination::bootstrap-4') }}
+                {{-- Flash Message --}}
+                @if(session('success'))
+                    <div class="alert alert-success text-center">{{ session('success') }}</div>
+                @endif
+
+                {{-- Posts Table --}}
+                <div class="table-responsive border rounded shadow-sm">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-primary text-center">
+                            <tr class="text-uppercase small fw-bold">
+                                <th>#</th>
+                                <th>Category</th>
+                                <th>Name</th>
+                                <th>Tags</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Approval</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($posts as $index => $post)
+                                <tr class="text-center">
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $post->category->name ?? 'N/A' }}</td>
+                                    <td class="fw-semibold text-primary">{{ $post->name }}</td>
+                                    <td>
+                                        @forelse($post->tags as $tag)
+                                            <span class="badge bg-info text-dark">{{ $tag->name }}</span>
+                                        @empty
+                                            <span class="badge bg-light text-muted">No Tags</span>
+                                        @endforelse
+                                    </td>
+                                    <td class="text-muted text-start">{{ \Illuminate\Support\Str::limit(strip_tags($post->description), 50) }}</td>
+                                    <td>
+                                        <span class="badge rounded-pill {{ $post->status ? 'bg-success' : 'bg-secondary' }}">
+                                            {{ $post->status ? 'Active' : 'Inactive' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill {{ $post->is_approved ? 'bg-success' : 'bg-warning text-dark' }}">
+                                            {{ $post->is_approved ? 'Approved' : 'Pending' }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">No posts available.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- Pagination --}}
+                <div class="mt-4 d-flex justify-content-center">
+                    {{ $posts->withQueryString()->onEachSide(1)->links('pagination::bootstrap-4') }}
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 @endsection
-
-@push('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        // Initialize select2 if you have any dropdowns
-        $('select').select2({
-            width: '100%'  // Ensure the select box takes full width
-        });
-    });
-</script>
-@endpush

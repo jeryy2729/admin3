@@ -11,12 +11,17 @@ class Category extends Model
     protected $table = 'categories';
  protected $dates = ['deleted_at']; 
     protected $fillable = [
-        'name','description','status'
+        'name','description','status','image','slug'
     ];
         public function posts()
     {
         return $this->hasMany(Post::class);
     }
+// In App\Models\Category
+public function getRouteKeyName()
+{
+    return 'slug';
+}
 
     // posts
 

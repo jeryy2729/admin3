@@ -54,6 +54,7 @@
                                 <tr>
                                     <th>S.No</th>
                                     <th>Name</th>
+                                    <th>image</th>
                                     <th>Description</th>
                                     <th>Status</th>
                                     <th width="200px">Action</th>
@@ -64,7 +65,10 @@
                                 <tr>
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->name }}</td>
-                                    <td>{{ $category->description }}</td>
+                                    
+                            <td><img src="{{ asset('storage/'.$category->image) }}" style="height: 50px; width: 50px"></td>
+                            
+                                    <td>{!! $category->description !!}</td>
                                     <td>
                                         @if($category->status)
                                             <span class="badge bg-success">Active</span>
@@ -78,28 +82,28 @@
                                     <td>
                                       @if ($showTrashed)
     {{-- Restore Button --}}
-    <form action="{{ route('categories.restore', $category->id) }}" method="POST" style="display: inline;">
+    <form action="{{ route('categories.restore', $category) }}" method="POST" style="display: inline;">
         @csrf
         @method('PUT')
         <button class="btn btn-sm btn-success" onclick="return confirm('Restore this category?')">Restore</button>
     </form>
 
     {{-- Permanent Delete Button --}}
-    <form action="{{ route('categories.forceDelete', $category->id) }}" method="POST" style="display:inline;">
+    <form action="{{ route('categories.forceDelete', $category) }}" method="POST" style="display:inline;">
         @csrf
         @method('DELETE')
         <button class="btn btn-sm btn-danger" onclick="return confirm('Permanently delete this category?')">Erase</button>
     </form>
 @else
     {{-- Soft Delete --}}
-    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display:inline;">
+    <form action="{{ route('categories.destroy', $category) }}" method="POST" style="display:inline;">
         @csrf
         @method('DELETE')
         <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this category?')">Delete</button>
     </form>
 
     {{-- Edit --}}
-    <form action="{{ route('categories.edit', $category->id) }}" method="GET" style="display:inline;">
+    <form action="{{ route('categories.edit', $category) }}" method="GET" style="display:inline;">
         <button class="btn btn-sm btn-blue">Edit</button>
     </form>
 @endif
@@ -126,6 +130,14 @@
 
     </div>
 </div>
+@if($errors->any())
+    <div class="alert alert-danger">
+        @foreach ($errors->all() as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    </div>
+@endif
+
 @endsection
 
 @push('styles')
@@ -161,6 +173,7 @@
 @push('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 
 <script>
     $(document).ready(function () {

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\TagsController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\CommentsController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\LoginController as UserLoginController;
 use App\Http\Controllers\Auth\RegisterController as UserRegisterController;
 use App\Http\Controllers\FrontendController;
@@ -32,25 +33,29 @@ Route::get('/', function () {
 
     // Protected admin routes
     Route::middleware(['auth:admin'])->group(function () {
-        Route::get('/home', function () {
-            return view('admin.dashboard');
-        })->name('admin.home');
-        Route::resource('categories', CategoriesController::class);
-        Route::put('categories/restore/{id}', [CategoriesController::class, 'restore'])->name('categories.restore');
-        Route::delete('categories/force-delete/{id}', [CategoriesController::class, 'forceDelete'])->name('categories.forceDelete');
-        Route::resource('tags', TagsController::class);
-        Route::put('tags/restore/{id}', [TagsController::class, 'restore'])->name('tags.restore');
-        Route::delete('tags/force-delete/{id}', [TagsController::class, 'forceDelete'])->name('tags.forceDelete');
+           Route::get('/home', [AdminController::class,'index'])->name('admin.home');
+
+        // Route::get('/home', function () {
+        //     return view('admin.dashboard');
+        // })->name('admin.home');
+       Route::put('categories/restore/{slug}', [CategoriesController::class, 'restore'])->name('categories.restore');
+Route::delete('categories/force-delete/{slug}', [CategoriesController::class, 'forceDelete'])->name('categories.forceDelete');
+// Resource route last (respects getRouteKeyName => 'slug')
+Route::resource('categories', CategoriesController::class);
+   Route::put('tags/restore/{slug}', [TagsController::class, 'restore'])->name('tags.restore');
+        Route::delete('tags/force-delete/{slug}', [TagsController::class, 'forceDelete'])->name('tags.forceDelete');
+ Route::resource('tags', TagsController::class);
+     
 // Route::get('/comments', [CommentsController::class, 'index'])->name('comments.index');
         Route::resource('comments', CommentsController::class);
 
 Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+ Route::put('posts/restore/{slug}', [PostsController::class, 'restore'])->name('posts.restore');
+        Route::delete('posts/force-delete/{slug}', [PostsController::class, 'forceDelete'])->name('posts.forceDelete');
+   Route::patch('posts/{slug}/approve', [PostsController::class, 'approve'])->name('admin.posts.approve');
 
         Route::resource('posts', PostsController::class);
-        Route::put('posts/restore/{id}', [PostsController::class, 'restore'])->name('posts.restore');
-        Route::delete('posts/force-delete/{id}', [PostsController::class, 'forceDelete'])->name('posts.forceDelete');
-   Route::patch('posts/{id}/approve', [PostsController::class, 'approve'])->name('admin.posts.approve');
-
+       
     });
 });
 
@@ -76,6 +81,7 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/tags/post/{id}', [TagController::class, 'show'])->name('frontend.tag-post');
 
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::get('/posts/{slug}', [PostController::class, 'showPublic'])->name('frontend.posts.show');
 });
 
 

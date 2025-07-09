@@ -33,7 +33,7 @@
         <div class="card-body">
             <h2 class="mb-4">Create New Post</h2>
 
-            <form method="POST" action="{{ route('posts.store') }}">
+<form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 <!-- Post Name -->
@@ -44,7 +44,12 @@
                         <div class="alert alert-danger mt-1">{{ $message }}</div>
                     @enderror
                 </div>
+<div class="form-group">
+        <label for="image">Post Image</label>
+        <input type="file" name="image" class="form-control">
+    </div>
 
+       
                 <!-- Category -->
                 <div class="mb-3">
                     <label class="form-label">Category</label>
@@ -78,7 +83,7 @@
                 <!-- Description -->
                 <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <input type="text" name="description" class="form-control" value="{{ old('description') }}" placeholder="Description">
+<textarea name="description" id="description" class="form-control" rows="6"></textarea>
                     @error('description')
                         <div class="alert alert-danger mt-1">{{ $message }}</div>
                     @enderror
@@ -88,6 +93,10 @@
                 <div class="form-check mb-4">
                     <input type="checkbox" name="status" class="form-check-input" id="status" value="1" checked>
                     <label class="form-check-label" for="status">Active</label>
+                </div>
+  <div class="form-check mb-4">
+                    <input type="checkbox" name="is_featured" class="form-check-input" id="is_featured" value="1" checked>
+                    <label class="form-check-label" for="is_featured">Is_Feature</label>
                 </div>
 
                 <!-- Submit -->
@@ -99,17 +108,15 @@
 @endsection
 
 @push('scripts')
-<!-- jQuery & Select2 JS -->
+<!-- jQuery (needed for CKEditor events if required) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+<!-- CKEditor -->
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <script>
     $(document).ready(function () {
-        $('.select2').select2({
-            placeholder: "Select tags",
-            allowClear: true,
-            width: '100%'
-        });
+        // Initialize CKEditor for description
+        CKEDITOR.replace('description');
     });
 </script>
 @endpush

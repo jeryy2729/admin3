@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::table('posts', function (Blueprint $table) {
             //
-                    $table->unsignedBigInteger('user_id'); // No foreignId, no constraint
-        $table->boolean('is_approved')->default(false);
+                        $table->unsignedBigInteger('user_id')->nullable()->change();
 
         });
     }

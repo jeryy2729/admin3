@@ -29,6 +29,8 @@ class UpdateRequest extends FormRequest
         'tags.*' => 'exists:tags,id',
         'description' => 'required|string',
         'status' => 'boolean',
+                            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB max
+
 
         ];
     }

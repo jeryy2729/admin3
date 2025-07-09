@@ -11,11 +11,16 @@ class Tag extends Model
     protected $table = 'tags';
  protected $dates = ['deleted_at']; 
     protected $fillable = [
-        'name','description','status'
+        'name','description','status','slug'
     ];
         public function posts()
     {
         return $this->belongsToMany(Post::class); // Uses post_tag table
     }
+    public function getRouteKeyName()
+{
+    return 'slug';
+}
+
 
 }

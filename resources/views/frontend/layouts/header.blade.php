@@ -9,6 +9,8 @@
   <meta name="author" content="themefisher.com">
 
   <title>Megakit| Html5 Agency template</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- bootstrap.min css -->
   <link rel="stylesheet" href="{{url('frontend/plugins/bootstrap/css/bootstrap.min.css')}}">
@@ -22,105 +24,106 @@
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="{{url('frontend/css/style.css')}}">
+    @stack('styles')
 
 </head>
 
 <body>
 
 
-<!-- Header Start --> 
-
-<header class="navigation">
-	<div class="header-top ">
-		<div class="container">
-			<div class="row justify-content-between align-items-center">
-				<div class="col-lg-2 col-md-4">
-					<div class="header-top-socials text-center text-lg-left text-md-left">
-						<a href="https://www.facebook.com/themefisher" target="_blank"><i class="ti-facebook"></i></a>
-						<a href="https://twitter.com/themefisher" target="_blank"><i class="ti-twitter"></i></a>
-						<a href="https://github.com/themefisher/" target="_blank"><i class="ti-github"></i></a>
-					</div>
-				</div>
-				<div class="col-lg-10 col-md-8 text-center text-lg-right text-md-right">
-					<div class="header-top-info">
-						<a href="tel:+23-345-67890">Call Us : <span>+23-345-67890</span></a>
-						<a href="mailto:support@gmail.com" ><i class="fa fa-envelope mr-2"></i><span>support@gmail.com</span></a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<nav class="navbar navbar-expand-lg  py-4" id="navbar">
-		<div class="container">
-<a class="navbar-brand" href="{{ route('frontend.index') }}">
-		  	Mega<span>kit.</span>
-		  </a>
-
-		  <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="fa fa-bars"></span>
-		  </button>
-	  
-		  <div class="collapse navbar-collapse text-center" id="navbarsExample09">
-			<ul class="navbar-nav ml-auto">
-			  <li class="nav-item active">
-				<a class="nav-link" href="{{ route('frontend.index') }}">Home <span class="sr-only">(current)</span></a>
-			  </li>
-			  <li class="nav-item active">
-				<a class="nav-link" href="{{ route('frontend.tags') }}">Tags <span class="sr-only">(current)</span></a>
-			  </li>
-			  	<li><a class="nav-link" href="{{ route('frontend.categories') }}">Categories</a></li>
-			 <li><a class="nav-link" href="{{ route('user.posts.index') }}">Blog Post</a></li>
-			 <li><a class="nav-link" href="{{ route('frontend.authpost') }}">Post</a></li>
-
-			 <li class="nav-item dropdown">
-          @auth
-<li class="nav-item dropdown">
-    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-        {{ Auth::user()->name }}
-    </a>
-
-    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{{ route('logout') }}"
-           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            {{ __('Logout') }}
-        </a>
-
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-            @csrf
-        </form>
-    </div>
-</li>
-@endauth
-
+<!-- Header Start --><header class="navigation">
+    <!-- Header Top -->
+    <div class="header-top text-white" style="background: linear-gradient(90deg, #ff7e5f, #feb47b);">
+        <div class="container">
+            <div class="row justify-content-between align-items-center py-2">
+                <div class="col-lg-4 col-md-6">
+                    <div class="header-top-socials d-flex gap-3">
+                        <a href="https://www.facebook.com/themefisher" target="_blank" class="text-white">
+                            <i class="bi bi-facebook fs-5"></i>
+                        </a>
+                        <a href="https://twitter.com/themefisher" target="_blank" class="text-white">
+                            <i class="bi bi-twitter-x fs-5"></i>
+                        </a>
+                        <a href="https://github.com/themefisher/" target="_blank" class="text-white">
+                            <i class="bi bi-github fs-5"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-6 text-lg-end text-md-end mt-2 mt-md-0">
+                    <div class="header-top-info small">
+                        <a href="tel:+23-345-67890" class="text-white me-3">
+                            <i class="bi bi-telephone-fill me-1"></i> +23-345-67890
+                        </a>
+                        <a href="mailto:support@gmail.com" class="text-white">
+                            <i class="bi bi-envelope-fill me-1"></i> support@gmail.com
+                        </a>
+                    </div>
+                </div>
             </div>
-        </li>
+        </div>
+    </div>
 
-			  <!-- <li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
-					<ul class="dropdown-menu" aria-labelledby="dropdown03">
-						<li><a class="dropdown-item" href="{{ route('frontend.about') }}">Our company</a></li>
-						<li><a class="dropdown-item" href="pricing.html">Pricing</a></li>
-					</ul>
-			  </li> -->
-			   <!-- <li class="nav-item"><a class="nav-link" href="service.html">Services</a></li>
-			   <li class="nav-item"><a class="nav-link" href="project.html">Portfolio</a></li>-->
-			   <!-- <li class="nav-item dropdown"> 
-					<a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blog</a>
-					<ul class="dropdown-menu" aria-labelledby="dropdown05">
-						<li><a class="dropdown-item" href="{{ route('frontend.categories') }}">Categories</a></li>
-						<li><a class="dropdown-item" href="blog-sidebar.html">Blog with Sidebar</a></li>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm py-3" style="background-color: #ffffff;">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3 text-primary" href="{{ route('frontend.index') }}">
+                Mega<span class="text-warning">kit.</span>
+            </a>
 
-					</ul>
-			  </li> -->
-			   <!-- <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li> -->
-			</ul>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="bi bi-list fs-2 text-primary"></span>
+            </button>
 
-			<!-- <form class="form-lg-inline my-2 my-md-0 ml-lg-4 text-center">
-			  <a href="contact.html" class="btn btn-solid-border btn-round-full">Get a Quote</a>
-			</form> -->
-		  </div>
-		</div>
-	</nav>
+            <div class="collapse navbar-collapse text-center" id="navbarsExample09">
+<ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
+    <li class="nav-item">
+        <a class="nav-link px-3" href="{{ route('frontend.index') }}" title="Home" data-bs-toggle="tooltip">
+            <i class="bi bi-house-door-fill fs-5"></i>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link px-3" href="{{ route('frontend.tags') }}" title="Tags" data-bs-toggle="tooltip">
+            <i class="bi bi-tags-fill fs-5"></i>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link px-3" href="{{ route('frontend.categories') }}" title="Categories" data-bs-toggle="tooltip">
+            <i class="bi bi-list-ul fs-5"></i>
+        </a>
+    </li>
+    <!-- <li class="nav-item">
+        <a class="nav-link px-3" href="{{ route('user.posts.index') }}" title="Blog Post" data-bs-toggle="tooltip">
+            <i class="bi bi-journal-richtext fs-5"></i>
+        </a>
+    </li> -->
+    <li class="nav-item">
+        <a class="nav-link px-3" href="{{ route('frontend.authpost') }}" title="Post" data-bs-toggle="tooltip">
+            <i class="bi bi-pencil-square fs-5"></i>
+        </a>
+    </li>
+
+    @auth
+    <li class="nav-item dropdown">
+        <a class="nav-link px-3 dropdown-toggle" href="#" role="button"
+            data-bs-toggle="dropdown" title="{{ Auth::user()->name }}" data-bs-toggle="tooltip">
+            <i class="bi bi-person-circle fs-5"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end">
+            <a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="bi bi-box-arrow-right me-2"></i> Logout
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        </div>
+    </li>
+    @endauth
+</ul>
+          </div>
+        </div>
+    </nav>
 </header>
 
