@@ -4,6 +4,33 @@
 <div class="main-wrapper">
     <div class="container-fluid px-0">
         <div class="row g-0">
+<!-- 
+<x-breadcrumbs :items="[
+        'Categories' => route('frontend.categories'),
+   $post->name => route('frontend.post-detail', $post)
+]" /> -->
+@if($from === 'category' && $post->category)
+    <x-breadcrumbs :items="[
+        
+        'Categories' => route('frontend.categories'),
+        $category->name => route('frontend.posts.show', $category->slug),
+
+        $post->name => ''
+    ]" />
+   @elseif($from === 'tag' && $tag)
+    <x-breadcrumbs :items="[
+        'Tags' => route('frontend.tags'),
+        $tag->name => route('frontend.tag-post', $tag->slug),
+        $post->name => ''
+    ]" />
+
+@else
+    <x-breadcrumbs :items="[
+       
+        $post->name => ''
+    ]" />
+@endif
+
 
             {{-- ✅ Left Sidebar --}}
             <div class="col-md-3 border-end bg-light px-4 py-4">

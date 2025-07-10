@@ -20,7 +20,8 @@ return new class extends Migration
 
                  $table->string('description')->nullable();
             $table->boolean('status');
-                               $table->unsignedBigInteger('user_id'); // No foreignId, no constraint
+                               $table->unsignedBigInteger('user_id'); 
+// No foreignId, no constraint
         $table->boolean('is_approved')->default(false);
 $table->boolean('is_featured')->default(false);
 

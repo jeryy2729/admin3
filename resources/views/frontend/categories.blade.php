@@ -4,6 +4,7 @@
 <div class="main-wrapper">
     <div class="container-fluid px-0">
         <div class="row g-0">
+<x-breadcrumbs :items="['Categories' => '']" />
 
             {{-- Sidebar --}}
             @include('frontend.layouts.sidebar')
@@ -33,7 +34,7 @@
                                 <div class="category-overlay p-4 text-white d-flex flex-column justify-content-end h-100 w-100">
                                     <h5 class="fw-bold">{{ $category->name }}</h5>
                                     <p class="small">{!! \Illuminate\Support\Str::limit(strip_tags($category->description), 80) !!}</p>
-                                   <a href="{{ route('frontend.posts.show', $category->slug) }}" class="btn btn-sm btn-light text-dark rounded-pill px-3 mt-2">
+                                   <a href="{{ route('frontend.posts.show', $category->slug) }}?from=Categories" class="btn btn-sm btn-light text-dark rounded-pill px-3 mt-2">
     View Posts <i class="fa fa-arrow-right ms-1"></i>
 </a>
                                 </div>

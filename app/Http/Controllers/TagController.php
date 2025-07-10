@@ -39,9 +39,9 @@ class TagController extends Controller
 
     return view('frontend.tags', compact('tags'));
 }
-public function show($id)
+public function show($slug,Request $request)
 {
-    $tag = Tag::where('status', 1)->findOrFail($id);
+    $tag = Tag::where('status', 1)->where('slug',$slug)->firstOrFail();
 
     $posts = $tag->posts()
         ->where('status', 1)
@@ -50,6 +50,10 @@ public function show($id)
 
     $categories = Category::where('status', 1)->get();
     $tags = Tag::where('status', 1)->get();
+       // Get the origin of the visit (optional: fallback to 'home')
+
+    // If accessed from category, provide category context
+    // $tag = $from === 'tag' ? $post->tag : null;
 
     return view('frontend.tag-post', compact('tag', 'posts', 'categories', 'tags'));
 }

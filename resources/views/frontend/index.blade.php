@@ -5,52 +5,21 @@
     <div class="container-fluid px-0">
         <div class="row g-0">
 
+
             {{-- Main Content --}}
             <div class="col-md-12">
                 <div class="container py-4">
+<section class="py-5 bg-white border-bottom">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-3" style="color: #f96d41;">Welcome to MegaKit</h2>
+        <p class="lead mx-auto text-secondary" style="max-width: 800px; font-size: 1.15rem; line-height: 1.8;">
+            <span class="d-inline-block mb-2" style="font-size: 1.25rem; color: #f96d41;"><i class="fas fa-lightbulb me-2"></i>Explore Ideas</span><br>
+            MegaKit is your gateway to <strong>insightful articles</strong>, <strong>expert advice</strong>, and <strong>inspiring stories</strong> across a variety of topics. Whether you're a curious reader, an aspiring writer, or a passionate learner, our blog is built to <span class="text-primary">inform</span>, <span class="text-success">engage</span>, and <span class="text-warning">spark new ideas</span> — every single day.
+        </p>
+    </div>
+</section>
 
-                    <!-- Slider Section -->
-                    <!-- <section class="slider mb-5 bg-primary text-white p-5 rounded">
-                        <div class="row">
-                            <div class="col-lg-12 text-center">
-                                <div class="block">
-                                    <span class="d-block mb-3 text-white text-uppercase">Shape Your Future with Us</span>
-                                    <h1 class="animated fadeInUp mb-4 display-4 fw-bold">We Turn Ideas<br>Into Reality</h1>
-                                    <a href="#" class="btn btn-light btn-lg animated fadeInUp">
-                                        Get Started <i class="fa fa-angle-right ms-2"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </section> -->
-
-                    <!-- Intro Section -->
-                    
-                    <!-- Counter Section -->
-                    <!-- <section class="bg-light py-5 mb-5 rounded">
-                        <div class="row text-center">
-                            <div class="col-md-3">
-                                <h2 class="text-primary fw-bold">100+</h2>
-                                <p>Projects Completed</p>
-                            </div>
-                            <div class="col-md-3">
-                                <h2 class="text-success fw-bold">50+</h2>
-                                <p>Satisfied Clients</p>
-                            </div>
-                            <div class="col-md-3">
-                                <h2 class="text-warning fw-bold">25+</h2>
-                                <p>Awards Won</p>
-                            </div>
-                            <div class="col-md-3">
-                                <h2 class="text-danger fw-bold">24/7</h2>
-                                <p>Support</p>
-                            </div>
-                        </div>
-                    </section> -->
-
-                    <!-- Testimonials Section -->
-            <!-- Testimonials Section with Posts & Comments -->
-<section class="testimonials mb-5">
+              <section class="testimonials mb-5">
     <div class="text-center mb-5">
         <span class="h6 text-color">What’s New</span>
         
@@ -69,15 +38,15 @@
 
                 <div class="card-body p-3">
                     <h6 class="mb-1 fw-semibold" style="font-size: 0.95rem;">
-                        <a href="{{ route('frontend.post-detail', $post->id) }}" class="text-decoration-none text-primary">
+                        <a href="{{ route('frontend.post-detail', $post) }}?from=Home" class="text-decoration-none text-primary">
                             {{ Str::limit($post->name, 40) }}
                         </a>
                     </h6>
 
-                    <p class="text-muted small mb-1" style="font-size: 0.85rem;">
+                    <!-- <p class="text-muted small mb-1" style="font-size: 0.85rem;">
                         {{ Str::limit(strip_tags($post->description), 60) }}
-                    </p>
-
+                    </p> -->
+<!-- 
                     @if($post->tags->count())
                         <div class="mb-1">
                             @foreach($post->tags as $t)
@@ -92,6 +61,15 @@
                             {{ $post->status ? 'Active' : 'Inactive' }}
                         </span>
                     </div>
+                         -->
+
+        <!-- 👁 View Count at Bottom Right -->
+        <div class="position-absolute bottom-0 end-0 m-3">
+            <span class="badge bg-info text-dark px-3 py-2 shadow-sm">
+                <i class="fas fa-eye me-1"></i> {{ $post->views }} Views
+            </span>
+        </div>
+
                 </div>
             </div>
         </div>
@@ -103,7 +81,7 @@
         </div>
 
         <!-- 💬 Right: Recent Comments -->
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <div class="bg-white border rounded-4 shadow-sm p-4 h-100">
                 <h5 class="fw-bold text-primary mb-3">💬 Recent Comments</h5>
                 @forelse($recentComments as $comment)
@@ -123,7 +101,7 @@
                     <p class="text-muted">No recent comments found.</p>
                 @endforelse
             </div>
-        </div>
+        </div> -->
     </div>
 </section>
 
@@ -135,11 +113,7 @@
 
 {{-- Styles --}}
 <style>
-    .hover-effect:hover {
-        background-color: #f8f9fa;
-        text-decoration: none;
-        color: #f96d41;
-    }
+    
     .post-bg-img {
         background-size: cover;
         background-position: center;

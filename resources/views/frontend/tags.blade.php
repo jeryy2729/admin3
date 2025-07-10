@@ -4,6 +4,7 @@
 <div class="main-wrapper">
     <div class="container-fluid px-0">
         <div class="row g-0">
+<x-breadcrumbs :items="['Tags' => '']" />
 
             {{-- Sidebar --}}
             @include('frontend.layouts.sidebar')
@@ -16,7 +17,7 @@
                     <div class="row">
                         @foreach($tags as $tag)
                             <div class="col-md-4 col-sm-6 mb-4">
-                                <a href="{{ route('frontend.tag-post', $tag->id) }}" class="text-decoration-none">
+                                <a href="{{ route('frontend.tag-post', $tag) }}" class="text-decoration-none">
                                     <div class="tag-card text-center p-4 rounded-4 shadow-sm h-100 text-white">
                                         <div class="mb-2">
                                             <i class="fas fa-tag fa-2x"></i>

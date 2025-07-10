@@ -4,6 +4,10 @@
 <div class="main-wrapper">
     <div class="container-fluid px-0">
         <div class="row g-0">
+<x-breadcrumbs :items="[
+    'tags' => route('frontend.tags'),
+    $tag->name => ''
+]" />
 
             {{-- ✅ Left Sidebar --}}
             <div class="col-md-3 border-end bg-light px-4 py-4">
@@ -49,7 +53,7 @@
 
                 <div class="card-body p-3">
                     <h6 class="mb-1 fw-semibold" style="font-size: 0.95rem;">
-                        <a href="{{ route('frontend.post-detail', $post->id) }}" class="text-decoration-none text-primary">
+                        <a href="{{ route('frontend.post-detail', $post) }}?from=tag&tag={{$tag->slug}}" class="text-decoration-none text-primary">
                             {{ Str::limit($post->name, 40) }}
                         </a>
                     </h6>

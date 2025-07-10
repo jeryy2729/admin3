@@ -4,6 +4,10 @@
 <div class="main-wrapper">
     <div class="container-fluid px-0">
         <div class="row g-0">
+<x-breadcrumbs :items="[
+    'Categories' => route('frontend.categories'),
+    $category->name => ''
+]" />
 
             {{-- ✅ Sidebar --}}
             @include('frontend.layouts.sidebar')
@@ -30,7 +34,7 @@
 
                                 {{-- Post Content --}}
                                 <div class="card-body d-flex flex-column p-3">
- <a href="{{ route('frontend.post-detail', $post->id) }}" class="text-decoration-none text-primary">
+ <a href="{{ route('frontend.post-detail', $post)}}?from=category" class="text-decoration-none text-primary">
                                     {{ $post->name }}
                                 </a>
                                     <p class="text-muted flex-grow-1" style="font-size: 0.9rem;">{{ Str::limit(strip_tags($post->description), 90) }}</p>

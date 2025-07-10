@@ -72,13 +72,16 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::resource('posts', PostController::class);
 });
     Route::get('/authposts', [PostController::class, 'authindex'])->name('frontend.authpost');
+// Add this route BEFORE the fallback post route
+// Route::get('categories/{category:slug}/{post:slug}', [PostController::class, 'showFromCategory'])->name('frontend.post-detail.category');
 
-    Route::get('/post/{id}', [PostController::class, 'show'])->name('frontend.post-detail');
+    Route::get('/post/{slug}', [PostController::class, 'show'])->name('frontend.post-detail');
 
     Route::get('/categories', [CategoryController::class, 'index'])->name('frontend.categories');
+// Add this route BEFORE the fallback post route
 
     Route::get('/tags/post', [TagController::class, 'index'])->name('frontend.tags');
-    Route::get('/tags/post/{id}', [TagController::class, 'show'])->name('frontend.tag-post');
+    Route::get('/tags/post/{slug}', [TagController::class, 'show'])->name('frontend.tag-post');
 
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::get('/posts/{slug}', [PostController::class, 'showPublic'])->name('frontend.posts.show');

@@ -159,7 +159,7 @@ public function forceDelete($slug)
 
 public function approve($slug)
 {
-    $post = Post::findOrFail($slug);
+    $post = Post::where('slug', $slug)->firstOrFail(); // ✅ find by slug
     $post->is_approved = true;
     $post->save();
 

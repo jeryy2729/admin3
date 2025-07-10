@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Str; // Make sure this is at the top of the file
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Post;
@@ -42,37 +42,62 @@ $posts = Post::where('user_id', auth()->id())  // Filter posts by logged-in user
 }
 
     public function store(Request $request)
-    {
+    {$slug = Str::slug($request->input('name'), '-');
+        $imagePath = null;
+if ($request->hasFile('image')) {
+    $image = $request->file('image');
+    $filename = time() . '_' . $image->getClientOriginalName();
+    $imagePath = $image->storeAs('uploads/posts', $filename, 'public');
+}
+
         $post = Post::create([
                         'user_id' => auth()->id(),
 
         'name' => $request->name,
+                'slug' => $slug,
         'description' => $request->description,
         'status' => $request->status ?? 0,
         'category_id' => $request->category_id,
+                    'image' => $imagePath,
+
     ]);
 
     // Attach tags using pivot table
     $post->tags()->sync($request->tags);
 
-    return redirect()->route('user.posts.index')->with('success', 'Post created successfully.');
+    return redirect()->route('frontend.authpost')->with('success', 'Post created successfully.');
 }
-public function show($id)
+public function show($slug,Request $request)
 {
-         $post = Post::with(['category', 'tags'])->findOrFail($id);
+         $post = Post::with(['category', 'tags'])->where('slug',$slug)->firstOrFail();
 
     // All categories and tags for sidebar or filtering
     $categories = Category::all();
     $tags = Tag::all();
+    $post->increment('views');
+       // Get the origin of the visit (optional: fallback to 'home')
+    $from = $request->query('from', 'home');
+
+    // If accessed from category, provide category context
+    $category = $from === 'category' ? $post->category : null;
+$tag = null;
+if ($from === 'tag') {
+    $tagSlug = $request->query('tag');
+    $tag = Tag::where('slug', $tagSlug)->first();
+}
+
 
     return view('frontend.post-detail', [
         'post' => $post,
-        // 'category' => $post->category,
-        // 'postTags' => $post->tags,
         'categories' => $categories,
         'tags' => $tags,
+        'tag' =>$tag,
+        'from' => $from,
+        'category' => $category,
     ]);
 }
+
+
 public function showPublic($slug)
 {
     $category = Category::where('slug', $slug)->firstOrFail();
