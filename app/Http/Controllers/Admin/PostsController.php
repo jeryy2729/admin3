@@ -98,7 +98,7 @@ public function edit(Post $post)
         'category_id' => $request->category_id,
         'name' => $request->name,
         'slug' => Str::slug($request->name, '-'),
-        'description' => $request->description,
+'description' => strip_tags($request->description),
         'status' => $request->status ?? 0,
                 'is_featured' => $request->is_featured ?? 0,
 

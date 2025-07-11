@@ -89,7 +89,7 @@
                 <!-- Description -->
                 <div class="mb-3">
                     <label class="form-label"><i class="bi bi-file-earmark-text text-primary me-1"></i>Description</label>
-                    <textarea name="description" id="description" class="form-control" rows="6"></textarea>
+                            <textarea name="description" id="description" class="form-control" rows="5">{{ old('description') }}</textarea>
                     @error('description')
                         <div class="alert alert-danger mt-1">{{ $message }}</div>
                     @enderror

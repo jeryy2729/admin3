@@ -55,7 +55,7 @@ if ($request->hasFile('image')) {
 
         'name' => $request->name,
                 'slug' => $slug,
-        'description' => $request->description,
+'description' => strip_tags($request->description),
         'status' => $request->status ?? 0,
         'category_id' => $request->category_id,
                     'image' => $imagePath,

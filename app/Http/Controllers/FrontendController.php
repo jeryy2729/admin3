@@ -35,9 +35,27 @@ class FrontendController extends Controller
 
     return view('frontend.index', compact('categories', 'posts', 'recentComments'));
 
-        return view('frontend.index', compact('categories','posts','recentComments'));
+
     }
 
+public function getAllposts()
+{
+    $posts = Post::where('is_featured', 1)
+        ->where('status', 1)
+        ->where(function ($query) {
+            $query->whereNull('user_id')
+                  ->orWhere(function ($q) {
+                      $q->whereNotNull('user_id')
+                        ->where('is_approved', 1);
+                  });
+        })
+        ->latest()
+        ->get();
+
+     return response()->json([
+        'status' => 'success',
+        'data' => $posts,]);
+}
 
     public function show($id)
     {
