@@ -18,9 +18,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BlogsingleController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
  Route::prefix('admin')->group(function () {
     // all your routes here
 
@@ -60,6 +62,13 @@ Route::get('/users', [UsersController::class, 'index'])->name('users.index');
 });
 
 // -----------------------------------------------------------------------------------------------------
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->route('frontend.index'); // or 'dashboard' or any other route for logged-in users
+    } else {
+        return redirect()->route('login'); // default Laravel login route
+    }
+});
 Auth::routes(['verify' => true]);
 
 // Public Route

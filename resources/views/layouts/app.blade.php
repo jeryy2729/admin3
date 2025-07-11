@@ -49,11 +49,11 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.login') }}">{{ __('Login') }}</a>
         </li>
-@guest
+<!-- @guest
     <li class="nav-item">
         <a class="nav-link" href="{{ route('login') }}">{{ __('User') }}</a>
     </li>
-@endguest
+@endguest -->
 
     @else
         <li class="nav-item dropdown">
