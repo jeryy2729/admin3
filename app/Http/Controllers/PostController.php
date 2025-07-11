@@ -102,13 +102,15 @@ public function showPublic($slug)
 {
     $category = Category::where('slug', $slug)->firstOrFail();
 
-    $posts = $category->posts()
+ 
+$posts = $category->posts()->where('is_featured', 1)
+        ->where('status', 1)
         ->where(function ($query) {
-            $query->whereNull('user_id') // admin post
-                  ->orWhere('is_approved', 1); // approved user post
-        })
-        ->latest()
-        ->paginate(6);
+            $query->whereNull('user_id') // Admin post
+                  ->orWhere(function ($q) {
+                      $q->whereNotNull('user_id')  // User post
+                        ->where('is_approved', 1); // Only approved
+                  });}) ->paginate(3); // Get all posts with this tag
 
     return view('frontend.post', compact('category', 'posts'));
 }

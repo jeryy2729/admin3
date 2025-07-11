@@ -8,23 +8,6 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-//  public function index(Request $request)
-// {
-//     $tags = Tag::where('status', 1)
-//         ->whereHas('posts', function ($q) {
-//             $q->where('status', 1); // Only tags with posts
-//         })
-//         ->with(['posts' => function ($q) {
-//             $q->where('status', 1)->latest();
-//         }])
-//         ->paginate(1)
-//         ->appends($request->all()); // keeps query strings
-
-//     return view('frontend.tags', compact('tags'));
-// }
   public function index(Request $request)
 {
     $tags = Tag::where('status', 1)
@@ -43,10 +26,14 @@ public function show($slug,Request $request)
 {
     $tag = Tag::where('status', 1)->where('slug',$slug)->firstOrFail();
 
-    $posts = $tag->posts()
+    $posts = $tag->posts()->where('is_featured', 1)
         ->where('status', 1)
-        ->latest()
-        ->paginate(3); // Get all posts with this tag
+        ->where(function ($query) {
+            $query->whereNull('user_id') // Admin post
+                  ->orWhere(function ($q) {
+                      $q->whereNotNull('user_id')  // User post
+                        ->where('is_approved', 1); // Only approved
+                  });}) ->paginate(3); // Get all posts with this tag
 
     $categories = Category::where('status', 1)->get();
     $tags = Tag::where('status', 1)->get();

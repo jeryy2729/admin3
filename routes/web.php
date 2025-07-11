@@ -25,22 +25,15 @@ use App\Http\Controllers\TagController;
 
  Route::prefix('admin')->group(function () {
     // all your routes here
-
-
     Route::get('register', [RegisterController::class,'showregistrationform'])->name('admin.register');
     Route::post('register', [RegisterController::class,'register'])->name('admin.submit.register');
     Route::get('login', [LoginController::class,'showloginform'])->name('admin.login');
     Route::post('login', [LoginController::class,'login'])->name('admin.submit.login');
     Route::post('logout', [LoginController::class,'logout'])->name('admin.logout');
-
-    // Protected admin routes
+  // Protected admin routes
     Route::middleware(['auth:admin'])->group(function () {
            Route::get('/home', [AdminController::class,'index'])->name('admin.home');
-
-        // Route::get('/home', function () {
-        //     return view('admin.dashboard');
-        // })->name('admin.home');
-       Route::put('categories/restore/{slug}', [CategoriesController::class, 'restore'])->name('categories.restore');
+  Route::put('categories/restore/{slug}', [CategoriesController::class, 'restore'])->name('categories.restore');
 Route::delete('categories/force-delete/{slug}', [CategoriesController::class, 'forceDelete'])->name('categories.forceDelete');
 // Resource route last (respects getRouteKeyName => 'slug')
 Route::resource('categories', CategoriesController::class);
@@ -81,9 +74,6 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::resource('posts', PostController::class);
 });
     Route::get('/authposts', [PostController::class, 'authindex'])->name('frontend.authpost');
-// Add this route BEFORE the fallback post route
-// Route::get('categories/{category:slug}/{post:slug}', [PostController::class, 'showFromCategory'])->name('frontend.post-detail.category');
-
     Route::get('/post/{slug}', [PostController::class, 'show'])->name('frontend.post-detail');
 
     Route::get('/categories', [CategoryController::class, 'index'])->name('frontend.categories');
