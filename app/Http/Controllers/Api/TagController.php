@@ -22,7 +22,9 @@ public function getpostsbytag($slug)
                         ->firstOrFail(); // Automatically throws 404 if not found
 
     // Fetch posts for this category
-    $posts = Post::where('id', $tag->id)->get();
+    $posts = Post::where('id', $tag->id)->where('status',1)
+     ->where('is_approved',1)
+    ->where('is_featured',1)->get();
 
     return response()->json([
         'status' => 'success',

@@ -50,7 +50,7 @@ public function index(Request $request)
         $tag->name = trim(preg_replace('/\s+/', ' ', $request->input('name')));
                     $tag->slug = $slug; // store the slug
 
- $tag->description = $request->input('description');
+$tag->description = strip_tags($request->input('description'));
         $tag->status = $request->input('status');
 
        
