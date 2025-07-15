@@ -69,7 +69,13 @@ if ($request->hasFile('image')) {
 }
 public function show($slug,Request $request)
 {
-         $post = Post::with(['category', 'tags'])->where('slug',$slug)->firstOrFail();
+        //  $post = Post::with(['category', 'tags'])->where('slug',$slug)->firstOrFail();
+$post = Post::with([
+        'category',
+        'tags',
+        'comments.user',         // Eager load the user who wrote each comment
+        'comments.replies.user'  // Eager load users for nested replies
+    ])->where('slug', $slug)->firstOrFail();
 
     // All categories and tags for sidebar or filtering
     $categories = Category::all();

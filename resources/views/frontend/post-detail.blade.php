@@ -105,20 +105,47 @@
 <div class="mt-5">
     <h4 class="fw-bold mb-4 text-primary border-bottom pb-2">💬 Comments</h4>
 
-    @forelse($post->comments as $comment)
-        <div class="bg-light p-3 mb-4 rounded-4 shadow-sm position-relative border-start border-4 border-primary">
-            <div class="d-flex align-items-start">
-                <div class="me-3">
-                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-weight: 600;">
-                        {{ strtoupper(substr($comment->user->name, 0, 1)) }}
-                    </div>
+    @php
+        $topLevelComments = $post->comments->whereNull('parent_id');
+    @endphp
+
+    @forelse($topLevelComments as $comment)
+        <div class="border-start border-4 border-primary ps-3 mb-4">
+            <div class="d-flex align-items-start gap-3">
+                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; font-weight: 600;">
+                    {{ strtoupper(substr($comment->user->name, 0, 1)) }}
                 </div>
-                <div class="flex-grow-1">
-                    <div class="d-flex justify-content-between mb-1">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
                         <strong class="text-dark">{{ $comment->user->name }}</strong>
                         <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
                     </div>
-                    <p class="text-secondary mb-0">{{ $comment->comment }}</p>
+                    <p class="mb-2 text-secondary small">{{ $comment->comment }}</p>
+
+                    {{-- Replies --}}
+                    @foreach ($comment->replies as $reply)
+                        <div class="bg-light border-start border-3 border-info ps-3 py-2 ms-3 mb-2 rounded small">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <strong class="text-dark">{{ $reply->user->name }}</strong>
+                                <small class="text-muted">{{ $reply->created_at->diffForHumans() }}</small>
+                            </div>
+                            <p class="mb-0 text-secondary">{{ $reply->comment }}</p>
+                        </div>
+                    @endforeach
+
+                    {{-- Reply Form (only for other users) --}}
+                    @auth
+                        @if(auth()->id() !== $comment->user_id)
+                            <form action="{{ route('comments.reply', $comment->id) }}" method="POST" class="mt-2 ms-3">
+                                @csrf
+                                <input type="hidden" name="post_id" value="{{ $post->id }}">
+                                <div class="mb-2">
+                                    <textarea name="comment" rows="2" class="form-control form-control-sm" placeholder="Reply..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-outline-primary rounded-pill px-3">Reply</button>
+                            </form>
+                        @endif
+                    @endauth
                 </div>
             </div>
         </div>
@@ -126,16 +153,16 @@
         <p class="text-muted">No comments yet. Be the first to comment!</p>
     @endforelse
 
-    {{-- Comment Form --}}
+    {{-- ✅ Top-Level Comment Form --}}
     <hr class="my-4">
 
     @auth
-        <form action="{{ route('comments.store') }}" method="POST" class="bg-white border rounded-4 shadow-sm p-4">
+        <form action="{{ route('comments.store') }}" method="POST" class="bg-light border rounded-4 p-4 shadow-sm">
             @csrf
             <input type="hidden" name="post_id" value="{{ $post->id }}">
             <div class="mb-3">
                 <label for="comment" class="form-label fw-semibold text-dark">Write a Comment</label>
-                <textarea name="comment" id="comment" rows="4" class="form-control rounded-3" placeholder="Share your thoughts..." required></textarea>
+                <textarea name="comment" id="comment" rows="3" class="form-control rounded-3" placeholder="Share your thoughts..." required></textarea>
             </div>
             <button type="submit" class="btn btn-primary rounded-pill px-4">💬 Post Comment</button>
         </form>
@@ -146,7 +173,6 @@
     @endauth
 </div>
 
-            </div> {{-- END Right Column --}}
         </div>
     </div>
 </div>

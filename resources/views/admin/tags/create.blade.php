@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
+@include('components.alerts')
 <div class="container-fluid" style="padding-top: 100px;">
     <div class="row justify-content-center">
 
@@ -16,21 +17,7 @@
                 <div class="card-body px-5 py-4">
 
                     {{-- Success Message --}}
-                    @if(session('status'))
-                        <div class="alert alert-success mb-3">{{ session('status') }}</div>
-                    @endif
-
-                    {{-- Validation Errors --}}
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li><i class="fas fa-exclamation-circle me-1"></i>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
+                   
                     <form action="{{ route('tags.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 

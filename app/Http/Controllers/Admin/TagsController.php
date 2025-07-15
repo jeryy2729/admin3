@@ -75,7 +75,7 @@ public function index(Request $request)
     $tag->slug = Str::slug($request->input('name'), '-');
 
         $tag->description = $request->input('description');
-        $tag->status = $request->input('status');
+            $tag->status = $request->input('status') ?? 0;
 
         if ($tag->update()) {
             return redirect()->route('tags.index')->with('success', 'Data has been updated successfully.');

@@ -22,7 +22,7 @@ class CategoriesTableSeeder extends Seeder
             [
                 'name' => 'Non-Fictional',
                 'description' => 'Dive into factual books covering history, biographies, politics, and real-world experiences.',
-                'image' => 'uploads/categories/non-fiction.jpg',
+                'image' => 'uploads/categories/flower.jpeg',
             ],
         //     [
         //         'name' => 'Science & Technology',

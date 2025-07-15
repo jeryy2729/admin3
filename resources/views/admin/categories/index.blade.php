@@ -4,7 +4,8 @@
 
 <div class="container-fluid">
     <div class="row min-vh-100">
-        
+        @include('components.alerts')
+
         <!-- Sidebar -->
         <!-- <div class="col-md-3 col-sm-4 bg-light p-4 shadow-sm" style="border-right: 1px solid #dee2e6;">
             <h5 class="mb-4 text-uppercase" style="color: #f96d41;">Admin Menu</h5>
@@ -41,11 +42,11 @@
        class="btn btn-secondary mb-3">
         {{ $showTrashed ? 'Show Active' : 'Show Trashed' }}
     </a>
-                    @if ($message = Session::get('success'))
+                    <!-- @if ($message = Session::get('success'))
                         <div class="alert alert-blue">
                             <p class="mb-0">{{ $message }}</p>
                         </div>
-                    @endif
+                    @endif -->
 
                     <div class="table-responsive">
                        <table class="table table-bordered table-hover">

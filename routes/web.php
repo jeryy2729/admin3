@@ -83,6 +83,8 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/tags/post/{slug}', [TagController::class, 'show'])->name('frontend.tag-post');
 
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+        Route::post('/comments/{comment}/reply', [CommentController::class, 'reply'])->name('comments.reply');
+
 Route::get('/posts/{slug}', [PostController::class, 'showPublic'])->name('frontend.posts.show');
 });
 

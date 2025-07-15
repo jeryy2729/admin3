@@ -80,7 +80,9 @@ public function update(UpdateRequest $request, Category $category)
     $category->name = $request->input('name');
     $category->slug = Str::slug($request->input('name'), '-');
     $category->description = $request->input('description');
-    $category->status = $request->input('status');
+    // $category->status = $request->input('status');
+            $category->status = $request->input('status') ?? 0;
+
 
     if ($request->hasFile('image')) {
         $image = $request->file('image');

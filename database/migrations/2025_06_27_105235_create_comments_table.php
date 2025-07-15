@@ -15,6 +15,8 @@ return new class extends Migration
         $table->id();
         $table->unsignedBigInteger('user_id'); // No foreign constraint
         $table->unsignedBigInteger('post_id'); // No foreign constraint
+            $table->unsignedBigInteger('parent_id')->nullable();
+
         $table->text('comment');
         $table->timestamps();
     });

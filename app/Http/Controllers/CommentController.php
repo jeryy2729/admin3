@@ -35,12 +35,35 @@ class CommentController extends Controller
 
     Comment::create([
         'user_id' => auth()->id(),
+                'parent_id' => null, // top-level comment
         'post_id' => $request->post_id,
         'comment' => $request->comment,
     ]);
 
     return back()->with('message', 'Comment added.');
 }
+public function reply(Request $request, $commentId)
+{
+    $parent = Comment::findOrFail($commentId);
+
+    if ($parent->user_id == auth()->id()) {
+        return back()->with('error', 'You cannot reply to your own comment.');
+    }
+
+    $request->validate([
+        'comment' => 'required|string' // ✅ match the column name
+    ]);
+
+    Comment::create([
+        'user_id'   => auth()->id(),
+        'post_id'   => $parent->post_id,
+        'parent_id' => $commentId,
+        'comment'   => $request->comment, // ✅ use 'comment', not 'body'
+    ]);
+
+    return back()->with('success', 'Reply posted.');
+}
+
 
     /**
      * Display the specified resource.
