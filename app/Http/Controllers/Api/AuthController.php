@@ -31,12 +31,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $token = $user->createToken('API Token')->plainTextToken;
+        // $token = $user->createToken('API Token')->plainTextToken;
 
         return response()->json([
             'status' => 'success',
             'user'   => $user,
-            'token'  => $token,
+            // 'token'  => $token,
         ]);
     }
    public function login(Request $request)
@@ -64,9 +64,30 @@ class AuthController extends Controller
         'user' => $user,
         'token' => $token
     ]);
+}
+    public function logout(Request $request)
+    {
+        $user= $request->user();
+           if ($user && $user->currentAccessToken()) {
+        $user->currentAccessToken()->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Logged out successfully'
+        ]);
+    }
+
+    else{
+    return response()->json([
+        'status'=>'Success',
+        'message'=>'Token is Already revoked',
+    ]);
+
+    }
+    // Auth::logout();
+    }
 
     }
 
 
-            
-}
+        

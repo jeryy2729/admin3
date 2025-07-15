@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 use App\Models\Category;
 use App\Models\Post;
-use App\Models\Comment;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -33,5 +33,27 @@ public function getAllposts()
         'status' => 'success',
         'data' => $posts,]);
 }
+
+
+public function getAllcategories()
+{
+    $categories = Category::where('status', 1)->get();
+      
+     return response()->json([
+        'status' => 'success',
+        'data' => $categories,]);
+}
+
+
+public function getAlltags()
+{
+    $tags = Tag::where('status', 1)->get();
+      
+     return response()->json([
+        'status' => 'success',
+        'data' => $tags,]);
+}
+
+
 
 }

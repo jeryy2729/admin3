@@ -14,7 +14,22 @@ class CategoryController extends Controller
     
    
 
+public function getpostsbycategory($slug)
+{
+    // Find category by slug
+    $category = Category::where('slug', $slug)
+                        ->where('status', 1)
+                        ->firstOrFail(); // Automatically throws 404 if not found
 
+    // Fetch posts for this category
+    $posts = Post::where('category_id', $category->id)->get();
+
+    return response()->json([
+        'status' => 'success',
+        'category' => $category->name,
+        'data' => $posts,
+    ]);
+}
 
 public function search(Request $Request,$slug)
 {

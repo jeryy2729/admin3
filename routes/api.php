@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\FrontendController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\AuthController;
 
 use App\Http\Controllers\UserController;
@@ -15,8 +16,13 @@ Route::get('/test',function(){
 return('api working');
 });
   Route::get('/posts', [FrontendController::class,'getAllposts']);
-    Route::get('/category/{slug}', [CategoryController::class,'search']);
+    Route::get('/categories', [FrontendController::class,'getAllcategories']);
+       Route::get('/category/{slug}', [CategoryController::class,'search']);
+              Route::get('category/{slug}/posts', [CategoryController::class,'getpostsbycategory']);
+              Route::get('tag/{slug}/posts', [TagController::class,'getpostsbytag']);
+        Route::get('/tags', [FrontendController::class,'getAlltags']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
   Route::get('/users', [UserController::class,'index']);
