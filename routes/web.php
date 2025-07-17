@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\TagsController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\PermissionsController;
+use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\CommentsController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\LoginController as UserLoginController;
@@ -40,11 +42,15 @@ Route::resource('categories', CategoriesController::class);
    Route::put('tags/restore/{slug}', [TagsController::class, 'restore'])->name('tags.restore');
         Route::delete('tags/force-delete/{slug}', [TagsController::class, 'forceDelete'])->name('tags.forceDelete');
  Route::resource('tags', TagsController::class);
+  Route::resource('permissions', PermissionsController::class);
+  Route::resource('roles', RolesController::class);
+  Route::resource('users', UsersController::class);
+
      
 // Route::get('/comments', [CommentsController::class, 'index'])->name('comments.index');
         Route::resource('comments', CommentsController::class);
 
-Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+// Route::get('/users', [UsersController::class, 'index'])->name('users.index');
  Route::put('posts/restore/{slug}', [PostsController::class, 'restore'])->name('posts.restore');
         Route::delete('posts/force-delete/{slug}', [PostsController::class, 'forceDelete'])->name('posts.forceDelete');
    Route::patch('posts/{slug}/approve', [PostsController::class, 'approve'])->name('admin.posts.approve');

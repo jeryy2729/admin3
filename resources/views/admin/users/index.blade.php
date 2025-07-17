@@ -4,6 +4,8 @@
 <div class="container-fluid py-4">
     <div class="row justify-content-center">
         <div class="col-lg-10">
+                    <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Create New Post</a>
+
             <div class="card shadow rounded">
                 <div class="card-header bg-dark text-white">
                     <h4 class="mb-0">All Registered Users</h4>

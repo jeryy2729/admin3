@@ -26,6 +26,18 @@
             <i class="fas fa-comments me-2"></i> Comments
         </a>
     </li>
+    
+    <li class="nav-item mb-2">
+        <a href="{{ route('permissions.index') }}" class="nav-link">
+            <i class="fas fa-users me-2"></i> Permissions
+        </a>
+    </li>
+     <li class="nav-item mb-2">
+        <a href="{{ route('roles.index') }}" class="nav-link">
+            <i class="fas fa-users me-2"></i> Roles
+        </a>
+    </li>
+
 </ul>
 <style>
 .admin-sidebar .nav-link {
