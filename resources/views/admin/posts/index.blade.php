@@ -40,11 +40,10 @@
                 
                 <th>Category</th>
                 <th>Name</th>
- <th>Image</th>
+ 
                 <th>Tags</th>
                                     <th>Description</th>
                                     <th>Status</th>
-                                    <th>Is_Featured</th>
                                     <th>Approval</th>
                                     <th width="200px">Action</th>            </tr>
         </thead>
@@ -54,15 +53,13 @@
                     <td>{{ $index + 1 }}</td>
                     
                     <td>{{ $post->category->name ?? 'N/A' }}</td>
-                    <td>{{$post->name}}</td>
-                                                <td><img src="{{ asset('storage/'.$post->image) }}" style="height: 50px; width: 50px"></td>
-
+                    <td>{{$post->name}}
                                       <td>
                         @foreach($post->tags as $tag)
                             <span class="badge bg-info text-dark">{{ $tag->name }}</span>
                         @endforeach
                     </td>
-                                    <td>{!! $post->description !!}</td>
+   <td>{!! $post->description !!}</td>
                                     <td>
                                         @if($post->status)
                                             <span class="badge bg-success">Active</span>
@@ -70,19 +67,12 @@
                                             <span class="badge bg-secondary">Inactive</span>
                                         @endif
                                     </td>
-                                     <td>
-                                        @if($post->is_featured)
-                                            <span class="badge bg-success">Featured</span>
-                                        @else
-                                            <span class="badge bg-secondary">Not Featured</span>
-                                        @endif
-                                    </td>
 <td>
     @if($post->user_id) {{-- Only show the action if created by a user --}}
         @if($post->is_approved)
             <span class="badge bg-success">Approved</span>
         @else
-            <form method="POST" action="{{ route('admin.posts.approve', $post) }}">
+            <form method="POST" action="{{ route('admin.posts.approve', $post->id) }}">
                 @csrf
                 @method('PATCH')
                 <button type="submit" class="btn btn-sm btn-primary">Approve</button>
@@ -96,31 +86,30 @@
                     <td>
                         @if ($showTrashed)
     {{-- Restore Button --}}
-    <form action="{{ route('posts.restore', $post) }}" method="POST" style="display: inline;">
+    <form action="{{ route('posts.restore', $post->id) }}" method="POST" style="display: inline;">
         @csrf
         @method('PUT')
         <button class="btn btn-sm btn-success" onclick="return confirm('Restore this post?')">Restore</button>
     </form>
 
     {{-- Permanent Delete Button --}}
-    <form action="{{ route('posts.forceDelete', $post) }}" method="POST" style="display:inline;">
+    <form action="{{ route('posts.forceDelete', $post->id) }}" method="POST" style="display:inline;">
         @csrf
         @method('DELETE')
         <button class="btn btn-sm btn-danger" onclick="return confirm('Permanently delete this category?')">Erase</button>
     </form>
 @else
     {{-- Soft Delete --}}
-   @can('edit posts')
-    <a href="{{ route('posts.edit', $post) }}">Edit</a>
-@endcan
-
-@can('delete posts')
-    <form method="POST" action="{{ route('posts.destroy', $post) }}">
+    <form action="{{ route('posts.destroy', $post) }}" method="POST" style="display:inline;">
         @csrf
         @method('DELETE')
-        <button type="submit">Delete</button>
+        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this post?')">Delete</button>
     </form>
-@endcan
+
+    {{-- Edit --}}
+    <form action="{{ route('posts.edit', $post) }}" method="GET" style="display:inline;">
+        <button class="btn btn-sm btn-blue">Edit</button>
+    </form>
 @endif
             @empty
                 <tr><td colspan="5">No posts found.</td></tr>
