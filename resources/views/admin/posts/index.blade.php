@@ -110,16 +110,17 @@
     </form>
 @else
     {{-- Soft Delete --}}
-    <form action="{{ route('posts.destroy', $post) }}" method="POST" style="display:inline;">
+   @can('edit posts')
+    <a href="{{ route('posts.edit', $post) }}">Edit</a>
+@endcan
+
+@can('delete posts')
+    <form method="POST" action="{{ route('posts.destroy', $post) }}">
         @csrf
         @method('DELETE')
-        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this post?')">Delete</button>
+        <button type="submit">Delete</button>
     </form>
-
-    {{-- Edit --}}
-    <form action="{{ route('posts.edit', $post) }}" method="GET" style="display:inline;">
-        <button class="btn btn-sm btn-blue">Edit</button>
-    </form>
+@endcan
 @endif
             @empty
                 <tr><td colspan="5">No posts found.</td></tr>

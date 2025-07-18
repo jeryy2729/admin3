@@ -9,7 +9,7 @@
 
                 <!-- Header -->
                 <div class="card-header text-white rounded-top-4" style="background: linear-gradient(135deg, #f96d41, #f9a041);">
-                    <h4 class="mb-0 fw-bold"><i class="fas fa-edit me-2"></i> Edit permission</h4>
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-key me-2"></i> Edit permission</h4>
                 </div>
 
                 <!-- Body -->

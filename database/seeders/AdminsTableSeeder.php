@@ -5,7 +5,8 @@ use App\Models\Admin;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 class AdminsTableSeeder extends Seeder
 {
     /**
@@ -13,19 +14,21 @@ class AdminsTableSeeder extends Seeder
      */
        public function run()
     {
-        $password = Hash::make('password');
+               // Create 'admin' role (if not exists)
+        $adminRole = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
 
-        $admins = array(
-            array(
-                'name' => 'BooksCity',
-                'email' => 'admin@gmail.com',
-                'password' => $password
-            ),
+        // Assign all existing permissions to admin role
+        $adminRole->syncPermissions(Permission::all());
+
+        // Create admin user
+        $admin = Admin::firstOrCreate(
+            ['email' => 'admin@gmail.com'],
+            ['name' => 'Super Admin', 'password' => Hash::make('password')]
         );
-        foreach($admins as $admin)
-        {
-            Admin::create($admin);
-        }
-    }
 
+        // Assign role
+        $admin->assignRole('admin');
+    }
+        // Create "admin" role if not exists
+        
 }

@@ -1,10 +1,12 @@
 @extends('admin.layouts.app')
 
 @section('content')
+@include('components.alerts')
+
 <div class="container-fluid py-4">
     <div class="row justify-content-center">
         <div class="col-lg-10">
-                    <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Create New Post</a>
+                    <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Create New User</a>
 
             <div class="card shadow rounded">
                 <div class="card-header bg-dark text-white">
@@ -19,6 +21,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Verified At</th>
+                                    <th>Actions
                                 </tr>
                             </thead>
                             <tbody>
@@ -32,6 +35,18 @@
                 @else
                     <span class="text-danger">Not Verified</span>
                 @endif
+</td>
+<td>
+      <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this post?')">Delete</button>
+    </form>
+
+    {{-- Edit --}}
+    <form action="{{ route('users.edit', $user->id) }}" method="GET" style="display:inline;">
+        <button class="btn btn-sm btn-blue">Edit</button>
+    </form>
 </td>
                                     </tr>
                                 @empty

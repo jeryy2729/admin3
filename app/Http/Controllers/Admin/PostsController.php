@@ -10,8 +10,10 @@ use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PostsController extends Controller
+
+class PostsController extends Controller 
 {
+ 
 public function create()
 {
     $categories = Category::where('status', '1')->get(); // ✅ FILTERED

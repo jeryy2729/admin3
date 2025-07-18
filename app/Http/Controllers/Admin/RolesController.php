@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-class RolesController extends Controller
+class RolesController extends Controller 
 {
+     
     // List all roles
     public function index()
     {
@@ -34,7 +35,7 @@ class RolesController extends Controller
 
         $role = new Role();
         $role->name = trim(preg_replace('/\s+/', ' ', $request->name));
-        $role->guard_name = 'admin'; // required if using custom guard
+        $role->guard_name = 'web'; // required if using custom guard
         $role->save();
 
        // Sync permissions using names, because Spatie expects names, not IDs

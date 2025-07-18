@@ -59,6 +59,10 @@ Route::resource('categories', CategoriesController::class);
        
     });
 });
+// Both Superadmin and Blogger can access posts
+// Route::middleware(['auth:admin', 'role:blogger'])->group(function () {
+//     Route::resource('posts', PostsController::class);
+// });
 
 // -----------------------------------------------------------------------------------------------------
 Route::get('/', function () {

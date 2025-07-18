@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionsController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -41,9 +42,11 @@ class PermissionsController extends Controller
         // $slug = Str::slug($request->input('name'), '-');
 
         // $permission = permission::create($request->all());
-        $permission = new permission();
+        $permission = new Permission();
         $permission->name = trim(preg_replace('/\s+/', ' ', $request->input('name')));
-                    // $permission->slug = $slug; // store the slug
+                $permission->guard_name = 'web'; // required if using custom guard
+           
+        // $permission->slug = $slug; // store the slug
 
 
        

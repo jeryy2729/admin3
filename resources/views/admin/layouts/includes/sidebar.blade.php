@@ -1,6 +1,8 @@
 <h5 class="mb-4 text-uppercase fw-bold" style="color: #f96d41;">Admin Menu</h5>
 
 <ul class="nav flex-column admin-sidebar">
+
+    
     <li class="nav-item mb-2">
         <a href="{{ route('categories.index') }}" class="nav-link">
             <i class="fas fa-list-alt me-2"></i> Categories
@@ -11,11 +13,17 @@
             <i class="fas fa-tags me-2"></i> Tags
         </a>
     </li>
+    
+
+    
     <li class="nav-item mb-2">
         <a href="{{ route('posts.index') }}" class="nav-link">
             <i class="fa-solid fa-file-lines me-2"></i> Posts
         </a>
     </li>
+
+
+    
     <li class="nav-item mb-2">
         <a href="{{ route('users.index') }}" class="nav-link">
             <i class="fas fa-users me-2"></i> Users
@@ -26,15 +34,14 @@
             <i class="fas fa-comments me-2"></i> Comments
         </a>
     </li>
-    
     <li class="nav-item mb-2">
         <a href="{{ route('permissions.index') }}" class="nav-link">
-            <i class="fas fa-users me-2"></i> Permissions
+            <i class="fas fa-key me-2"></i> Permissions
         </a>
     </li>
-     <li class="nav-item mb-2">
+    <li class="nav-item mb-2">
         <a href="{{ route('roles.index') }}" class="nav-link">
-            <i class="fas fa-users me-2"></i> Roles
+            <i class="fas fa-user-shield me-2"></i> Roles
         </a>
     </li>
 

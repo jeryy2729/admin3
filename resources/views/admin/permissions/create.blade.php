@@ -24,7 +24,7 @@
                         <div class="row">
                             <!-- Tag Name -->
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-semibold"><i class="fas fa-tag me-1 text-primary"></i> Name</label>
+                                <label class="form-label fw-semibold"><i class="fas fa-key me-1 text-primary"></i> Name</label>
                                 <input type="text" name="name" class="form-control" placeholder="Enter Name" value="{{ old('name') }}">
                                 @error('name')
                                     <small class="text-danger">{{ $message }}</small>
