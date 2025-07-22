@@ -1,4 +1,6 @@
 <?php
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request; // ✅ Correct
 use App\Http\Controllers\Admin\RegisterController;
@@ -25,40 +27,43 @@ use App\Http\Controllers\TagController;
 // });
 
 
- Route::prefix('admin')->group(function () {
-    // all your routes here
+Route::prefix('admin')->group(function () {
     Route::get('register', [RegisterController::class,'showregistrationform'])->name('admin.register');
     Route::post('register', [RegisterController::class,'register'])->name('admin.submit.register');
     Route::get('login', [LoginController::class,'showloginform'])->name('admin.login');
     Route::post('login', [LoginController::class,'login'])->name('admin.submit.login');
     Route::post('logout', [LoginController::class,'logout'])->name('admin.logout');
-  // Protected admin routes
-    Route::middleware(['auth:admin'])->group(function () {
-           Route::get('/home', [AdminController::class,'index'])->name('admin.home');
-  Route::put('categories/restore/{slug}', [CategoriesController::class, 'restore'])->name('categories.restore');
-Route::delete('categories/force-delete/{slug}', [CategoriesController::class, 'forceDelete'])->name('categories.forceDelete');
-// Resource route last (respects getRouteKeyName => 'slug')
-Route::resource('categories', CategoriesController::class);
-   Route::put('tags/restore/{slug}', [TagsController::class, 'restore'])->name('tags.restore');
-        Route::delete('tags/force-delete/{slug}', [TagsController::class, 'forceDelete'])->name('tags.forceDelete');
- Route::resource('tags', TagsController::class);
-  Route::resource('permissions', PermissionsController::class);
-  Route::resource('roles', RolesController::class);
-  Route::resource('users', UsersController::class);
+    // Shared dashboard
+   // ✅ Admin dashboard access (Admin or Blogger)
+Route::middleware(['admin.or.blogger'])->group(function () {
+    Route::get('/home', [AdminController::class, 'index'])->name('admin.home');
 
-     
-// Route::get('/comments', [CommentsController::class, 'index'])->name('comments.index');
-        Route::resource('comments', CommentsController::class);
-
-// Route::get('/users', [UsersController::class, 'index'])->name('users.index');
- Route::put('posts/restore/{slug}', [PostsController::class, 'restore'])->name('posts.restore');
-        Route::delete('posts/force-delete/{slug}', [PostsController::class, 'forceDelete'])->name('posts.forceDelete');
-   Route::patch('posts/{slug}/approve', [PostsController::class, 'approve'])->name('admin.posts.approve');
-
+    // ✅ Blogger & Admin (posts)
+    Route::middleware(['admin.or.blogger'])->group(function () {
         Route::resource('posts', PostsController::class);
-       
+        Route::put('posts/restore/{slug}', [PostsController::class, 'restore'])->name('posts.restore');
+        Route::delete('posts/force-delete/{slug}', [PostsController::class, 'forceDelete'])->name('posts.forceDelete');
+    });
+
+    // ✅ Admin Only
+    Route::middleware('role:admin,admin')->group(function () {
+        Route::resource('categories', CategoriesController::class);
+        Route::put('categories/restore/{slug}', [CategoriesController::class, 'restore'])->name('categories.restore');
+        Route::delete('categories/force-delete/{slug}', [CategoriesController::class, 'forceDelete'])->name('categories.forceDelete');
+
+        Route::resource('tags', TagsController::class);
+        Route::put('tags/restore/{slug}', [TagsController::class, 'restore'])->name('tags.restore');
+        Route::delete('tags/force-delete/{slug}', [TagsController::class, 'forceDelete'])->name('tags.forceDelete');
+
+        Route::resource('permissions', PermissionsController::class);
+        Route::resource('roles', RolesController::class);
+        Route::resource('users', UsersController::class);
+        Route::resource('comments', CommentsController::class);
+        Route::patch('posts/{slug}/approve', [PostsController::class, 'approve'])->name('admin.posts.approve');
     });
 });
+});
+
 // Both Superadmin and Blogger can access posts
 // Route::middleware(['auth:admin', 'role:blogger'])->group(function () {
 //     Route::resource('posts', PostsController::class);

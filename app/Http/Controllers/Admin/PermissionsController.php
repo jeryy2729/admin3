@@ -5,12 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 
-class PermissionsController extends Controller
+class PermissionsController extends Controller 
 {
-
-    /**
+//  public function __construct()
+//     {
+//         $this->middleware('permission:view permissions')->only('index');
+//         $this->middleware('permission:create permissions')->only(['create', 'store']);
+//         $this->middleware('permission:edit permissions')->only(['edit', 'update']);
+//         $this->middleware('permission:delete permissions')->only('destroy');
+//     }
+   /**
      * Display a listing of the resource.
      */
     public function index()
@@ -81,17 +89,13 @@ class PermissionsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-     public function update(Request $request, string $id)
+     public function update(Request $request, Permission $permission)
 {
     // Validate the input
     $request->validate([
         'name' => 'required|string|max:255',
     ]);
 
-    // Find the permission by ID
-
-    // Update the name
-        $permission = Permission::findOrFail($id);
 
     $permission->name = $request->input('name');
 
@@ -99,19 +103,22 @@ class PermissionsController extends Controller
     // $permission->slug = Str::slug($request->input('name'), '-');
 
     // Save the changes
-    $permission->save();
+    // $permission->save();
 
     // Redirect or return response
-    return redirect()->back()->with('success', 'Permission updated successfully.');
+     if ($permission->update()) {
+        return redirect()->route('permissions.index')->with('success', 'Data has been updated successfully.');
+    } else {
+        return redirect()->route('permissions.index')->with('error', 'Data has not been updated.');
+    } // return redirect()->back()->with('success', 'Permission updated successfully.');
 }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Permission $permission)
     {
         //
-                $permission = Permission::findOrFail($id);
 
          $permission->delete();
 

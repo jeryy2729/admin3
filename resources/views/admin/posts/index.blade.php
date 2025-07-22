@@ -1,6 +1,14 @@
 @extends('admin.layouts.app')
 
 @section('content')
+@role('admin')
+    <a href="{{ route('users.index') }}">Manage Users</a>
+@endrole
+
+@role('blogger')
+    <p>Welcome Blogger</p>
+@endrole
+
 <div class="container">
     <h2 class="mb-4">Posts List</h2>
 

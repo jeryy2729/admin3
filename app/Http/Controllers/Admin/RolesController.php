@@ -7,9 +7,16 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-class RolesController extends Controller 
+class RolesController extends Controller
 {
-     
+    // public function __construct()
+    // {
+    //     $this->middleware('permission:view roles')->only('index');
+    //     $this->middleware('permission:create roles')->only(['create', 'store']);
+    //     $this->middleware('permission:edit roles')->only(['edit', 'update']);
+    //     $this->middleware('permission:delete roles')->only('destroy');
+    // }
+
     // List all roles
     public function index()
     {
@@ -26,26 +33,31 @@ class RolesController extends Controller
 
     // Store a new role
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:roles,name',
-            'permissions' => 'nullable|array',
-            'permissions.*' => 'exists:permissions,id',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string|max:255|unique:roles,name',
+        'permissions' => 'nullable|array',
+        'permissions.*' => 'exists:permissions,id',
+    ]);
 
-        $role = new Role();
-        $role->name = trim(preg_replace('/\s+/', ' ', $request->name));
-        $role->guard_name = 'web'; // required if using custom guard
-        $role->save();
+    // Clean and normalize the role name
+    $roleName = trim(preg_replace('/\s+/', ' ', $request->name));
 
-       // Sync permissions using names, because Spatie expects names, not IDs
+    // Create and assign role
+    $role = new Role();
+    $role->name = $roleName;
+    $role->guard_name = strtolower($roleName) === 'admin' ? 'admin' : 'web';
+    $role->save();
+
+    // Attach permissions (if any)
     if (!empty($request->permissions)) {
         $permissionNames = Permission::whereIn('id', $request->permissions)->pluck('name')->toArray();
         $role->syncPermissions($permissionNames);
     }
 
-        return redirect()->route('roles.index')->with('success', 'Role created successfully.');
-    }
+    return redirect()->route('roles.index')->with('success', 'Role created successfully.');
+}
+
 
     // Show form to edit an existing role
     public function edit($id)

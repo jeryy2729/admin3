@@ -10,9 +10,16 @@ use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+class PostsController extends Controller
+{    
+    // public function __construct()
+    // {
+    //     $this->middleware('permission:view posts')->only('index');
+    //     $this->middleware('permission:create posts')->only(['create', 'store']);
+    //     $this->middleware('permission:edit posts')->only(['edit', 'update']);
+    //     $this->middleware('permission:delete posts')->only('destroy');
+    // }
 
-class PostsController extends Controller 
-{
  
 public function create()
 {

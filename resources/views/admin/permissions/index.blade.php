@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
+@include('components.alerts')
 
 <div class="container-fluid">
     <div class="row min-vh-100">

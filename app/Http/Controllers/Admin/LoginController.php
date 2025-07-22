@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request; // ✅ Correct import
 use App\Models\Admin;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth; // ✅ CORRECT
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -36,48 +36,51 @@ class LoginController extends Controller
      *
      * @return void
      */
-    protected function guard()
+ protected function guard()
 {
     return Auth::guard('admin');
 }
- public function __construct()
-{
-    $this->middleware('guest:admin')->except('logout');
-}
+
+    public function __construct()
+    {
+        $this->middleware('guest:admin')->except('logout');
+        $this->middleware('guest:web')->except('logout');
+    }
 
 
     protected function showloginform()
     {
         return view('auth.login');
     }
-    public function login(Request $request)
-    {
-        $request->validate([
-            'password' => ['required', 'string', 'min:8',],
-          'email' => ['required', 'string', 'email', 'max:255', ],
-        ]);
+     public function login(Request $request)
+{
+    $credentials = $request->only('email', 'password');
 
-        $admin = Admin::where(['email' => $request->email])->first();
+    // Try Admin Login
+    if (Auth::guard('admin')->attempt($credentials, $request->filled('remember'))) {
+        return redirect()->route('admin.home');
+    }
 
-        if (!$admin) {
-            return redirect()->back();
+    // Try Blogger Login (users table with 'blogger' role)
+    if (Auth::guard('web')->attempt($credentials, $request->filled('remember'))) {
+        $user = Auth::guard('web')->user();
+
+        if ($user->hasRole('blogger')) {
+            return redirect()->route('admin.home');
         } else {
-            if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
-             
-                return redirect(route('admin.home'));
-              
-            }
-            else {
-                return redirect()->back();
-            }
+            Auth::guard('web')->logout();
+            return back()->withErrors(['email' => 'Only bloggers are allowed in the admin panel.']);
         }
     }
- 
 
+    return back()->withErrors(['email' => 'Invalid credentials.']);
+}
 
 public function logout(Request $request)
 {
     Auth::guard('admin')->logout();
+            Auth::guard('web')->logout();
+
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 

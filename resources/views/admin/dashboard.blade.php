@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container-fluid py-4">
+@if(Auth::guard('admin')->check())
+    Welcome, {{ Auth::guard('admin')->user()->name }}
+@endif
 
     <!-- Welcome Card -->
     <div class="card mb-4 border-0 shadow rounded-4">
