@@ -26,6 +26,9 @@ class AdminOrBloggerMiddleware
         if (Auth::guard('web')->check() && Auth::guard('web')->user()->hasRole('blogger')) {
             return $next($request);
         }
+        if (Auth::guard('web')->check() && Auth::guard('web')->user()->hasRole('staff')) {
+            return $next($request);
+        }
 
         // Unauthorized
         abort(403, 'Unauthorized.');

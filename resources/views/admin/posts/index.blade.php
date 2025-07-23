@@ -92,8 +92,8 @@
                             @if($post->is_approved)
                                 <span class="badge bg-success">Approved</span>
                             @else
-                                @role('admin')
-                                    <form method="POST" action="{{ route('admin.posts.approve', $post->id) }}">
+@hasrole('admin', 'admin')
+                                    <form method="POST" action="{{ route('admin.posts.approve', $post) }}">
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit" class="btn btn-sm btn-primary">
@@ -102,7 +102,7 @@
                                     </form>
                                 @else
                                     <span class="text-warning">Pending</span>
-                                @endrole
+                                @endhasrole
                             @endif
                         @else
                             <span class="text-muted">System Generated</span>
@@ -110,9 +110,10 @@
                     </td>
 
                     <td>
+                        @hasrole('admin','admin')
                         {{-- Trashed Actions --}}
                         @if ($showTrashed)
-                            <form action="{{ route('posts.restore', $post->id) }}" method="POST" style="display: inline;">
+                            <form action="{{ route('posts.restore', $post) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('PUT')
                                 <button class="btn btn-sm btn-success" onclick="return confirm('Restore this post?')">
@@ -120,7 +121,7 @@
                                 </button>
                             </form>
 
-                            <form action="{{ route('posts.forceDelete', $post->id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('posts.forceDelete', $post) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('Permanently delete this post?')">
@@ -140,6 +141,7 @@
                                 <i class="fas fa-edit"></i> Edit
                             </a>
                         @endif
+                        @endhasrole
                     </td>
                 </tr>
             @empty

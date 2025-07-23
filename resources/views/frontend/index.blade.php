@@ -18,7 +18,7 @@
                             <p class="lead mx-auto" style="max-width: 800px;">
                                 <i class="fas fa-lightbulb me-2"></i>Explore powerful ideas, expert tips, and inspiring stories. Stay curious, stay inspired — every day with <strong>MegaKit</strong>!
                             </p>
-                            <a href="#posts" class="btn btn-light mt-3 px-4 py-2 shadow rounded-pill">
+                            <a href="#" class="btn btn-light mt-3 px-4 py-2 shadow rounded-pill">
                                 <i class="fas fa-arrow-down me-1"></i> Start Exploring
                             </a>
                         </div>

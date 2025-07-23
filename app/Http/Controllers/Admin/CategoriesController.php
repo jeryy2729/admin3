@@ -10,6 +10,22 @@ use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
+    
+// public function __construct()
+// {
+//     // Allow admin, blogger, or staff to access index
+//     $this->middleware('role:staff', ['only' => ['show']]);
+//     $this->middleware(function ($request, $next) {
+//         if (auth()->check() && auth()->user()->hasRole('staff') && $request->route()->getActionMethod() !== 'show') {
+//             abort(403, 'Unauthorized: staff can only access show.');
+//         }
+//         return $next($request);
+//     });
+
+    
+
+// }
+
     /**
      * Display a listing of the resource.
      */
@@ -126,4 +142,10 @@ public function forceDelete($slug)
     }
 
 }
+
+// public function show()
+// {
+//     return redirect()->route('categories.index');
+// }
+
 }

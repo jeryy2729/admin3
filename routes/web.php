@@ -26,6 +26,9 @@ use App\Http\Controllers\TagController;
 //     return view('welcome');
 // });
 
+Route::middleware(['auth', 'role:staff'])->group(function () {
+    Route::get('staff/posts', [PostsController::class, 'show'])->name('staff.posts.show');
+});
 
 Route::prefix('admin')->group(function () {
     Route::get('register', [RegisterController::class,'showregistrationform'])->name('admin.register');

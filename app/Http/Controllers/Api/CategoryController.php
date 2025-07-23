@@ -23,14 +23,24 @@ public function getpostsbycategory($slug)
 
     // Fetch posts for this category
     $posts = Post::where('category_id', $category->id)
-    ->where('is_approved',1)
-    ->where('is_featured',1)->get();
-
-    return response()->json([
+    ->where('status',1)->where('is_featured',1)->get();
+    if ($posts) {
+return response()->json([
         'status' => 'success',
         'category' => $category->name,
         'data' => $posts,
+]);
+      
+    }
+
+    else{
+    return response()->json([
+        'status'=>'Not Successful',
+        'message'=>'No post found',
     ]);
+
+    }
+    
 }
 
 public function search(Request $Request,$slug)

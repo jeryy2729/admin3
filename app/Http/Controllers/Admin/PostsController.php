@@ -20,7 +20,19 @@ class PostsController extends Controller
     //     $this->middleware('permission:delete posts')->only('destroy');
     // }
 
- 
+public function __construct()
+{
+    // Allow admin, blogger, or staff to access index
+    $this->middleware('role:staff', ['only' => ['show']]);
+
+    // All other methods allowed only for admin or blogger
+    
+    // $this->middleware('role:admin|blogger', ['except' => ['index']]);
+   
+
+}
+
+
 public function create()
 {
     $categories = Category::where('status', '1')->get(); // ✅ FILTERED
@@ -76,7 +88,7 @@ if ($request->hasFile('image')) {
     $post = Post::create([
         'name' => $request->name,
         'slug' => $slug,
-        'description' => $request->description,
+        'description' => $request->input('description'),
         'status' => $request->status ?? 0,
                 'is_featured' => $request->is_featured ?? 0,
 
@@ -175,4 +187,10 @@ public function approve($slug)
     return redirect()->back()->with('success', 'Post approved successfully.');
 }
 
+
+public function show($id)
+{
+    // Optional: redirect or show a post
+    return redirect()->route('posts.index');
+}
 }

@@ -39,10 +39,13 @@
             </li>
  @endauth
  @auth
+
     <li class="nav-item mb-2">
                 <a href="{{ route('posts.index') }}" class="nav-link">
                     <i class="fa-solid fa-file-lines me-2"></i> Posts
                 </a>
             </li>
+            
+    
             @endauth
 </ul>
