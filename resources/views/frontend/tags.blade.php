@@ -45,14 +45,14 @@
 {{-- Custom Styles --}}
 <style>
     .tag-card {
-        background: linear-gradient(135deg, #f96d41, #f9a041);
+        background: linear-gradient(135deg, #5a0783, #f342c7);
         transition: all 0.3s ease-in-out;
     }
 
     .tag-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        background: linear-gradient(135deg, #f9a041, #f96d41);
+        background: linear-gradient(135deg, #9e49c7, #f39842);
         text-decoration: none;
     }
 

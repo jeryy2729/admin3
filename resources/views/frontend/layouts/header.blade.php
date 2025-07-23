@@ -25,6 +25,38 @@
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="{{url('frontend/css/style.css')}}">
     @stack('styles')
+<style>
+    /* Smooth transition for nav elements */
+    .navbar-nav .nav-link,
+    .navbar-brand {
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* On hover effects for links */
+    .navbar-nav .nav-link:hover {
+        color: #fff !important;
+        background: linear-gradient(45deg, #FF512F, #DD2476);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+    }
+
+    /* Logo hover effect */
+    .navbar-brand:hover {
+        color: #DD2476 !important;
+        transform: scale(1.05);
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Smooth dropdown animation */
+    .dropdown-menu {
+        transition: all 0.4s ease-in-out;
+        animation: fadeInDown 0.3s ease-in-out;
+    }
+
+    
+
+</style>
 
 </head>
 
@@ -32,8 +64,10 @@
 
 
 <!-- Header Start --><header class="navigation">
+<!-- Header Start -->
+<header class="navigation">
     <!-- Header Top -->
-    <div class="header-top text-white" style="background: linear-gradient(90deg, #ff7e5f, #feb47b);">
+    <div class="header-top text-white" style="background: linear-gradient(90deg, #FF512F, #DD2476);">
         <div class="container">
             <div class="row justify-content-between align-items-center py-2">
                 <div class="col-lg-4 col-md-6">
@@ -50,11 +84,11 @@
                     </div>
                 </div>
                 <div class="col-lg-8 col-md-6 text-lg-end text-md-end mt-2 mt-md-0">
-                    <div class="header-top-info small">
-                        <a href="tel:+23-345-67890" class="text-white me-3">
+                    <div class="header-top-info small fw-semibold">
+                        <a href="tel:+23-345-67890" class="text-white me-3 text-decoration-none">
                             <i class="bi bi-telephone-fill me-1"></i> +23-345-67890
                         </a>
-                        <a href="mailto:support@gmail.com" class="text-white">
+                        <a href="mailto:support@gmail.com" class="text-white text-decoration-none">
                             <i class="bi bi-envelope-fill me-1"></i> support@gmail.com
                         </a>
                     </div>
@@ -64,65 +98,60 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light shadow-sm py-3" style="background-color: #ffffff;">
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm py-3" style="background: linear-gradient(90deg, #ffffff, #f3f9ff);">
         <div class="container">
-            <a class="navbar-brand fw-bold fs-3 text-primary" href="{{ route('frontend.index') }}">
-                Mega<span class="text-warning">kit.</span>
+            <a class="navbar-brand fw-bold fs-3" href="{{ route('frontend.index') }}" style="color: #FF6F61;">
+                Mega<span style="color: #FFBB00;">kit.</span>
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false"
                 aria-label="Toggle navigation">
-                <span class="bi bi-list fs-2 text-primary"></span>
+                <span class="bi bi-list fs-2" style="color: #FF6F61;"></span>
             </button>
 
             <div class="collapse navbar-collapse text-center" id="navbarsExample09">
-<ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
-    <li class="nav-item">
-        <a class="nav-link px-3" href="{{ route('frontend.index') }}" title="Home" data-bs-toggle="tooltip">
-            <i class="bi bi-house-door-fill fs-5"></i>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link px-3" href="{{ route('frontend.tags') }}" title="Tags" data-bs-toggle="tooltip">
-            <i class="bi bi-tags-fill fs-5"></i>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link px-3" href="{{ route('frontend.categories') }}" title="Categories" data-bs-toggle="tooltip">
-            <i class="bi bi-list-ul fs-5"></i>
-        </a>
-    </li>
-    <!-- <li class="nav-item">
-        <a class="nav-link px-3" href="{{ route('user.posts.index') }}" title="Blog Post" data-bs-toggle="tooltip">
-            <i class="bi bi-journal-richtext fs-5"></i>
-        </a>
-    </li> -->
-    <li class="nav-item">
-        <a class="nav-link px-3" href="{{ route('frontend.authpost') }}" title="Post" data-bs-toggle="tooltip">
-            <i class="bi bi-pencil-square fs-5"></i>
-        </a>
-    </li>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 fw-semibold text-dark" href="{{ route('frontend.index') }}" title="Home" data-bs-toggle="tooltip">
+                            <i class="bi bi-house-door-fill fs-5 text-primary"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 fw-semibold text-dark" href="{{ route('frontend.tags') }}" title="Tags" data-bs-toggle="tooltip">
+                            <i class="bi bi-tags-fill fs-5 text-success"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 fw-semibold text-dark" href="{{ route('frontend.categories') }}" title="Categories" data-bs-toggle="tooltip">
+                            <i class="bi bi-list-ul fs-5 text-warning"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 fw-semibold text-dark" href="{{ route('frontend.authpost') }}" title="Post" data-bs-toggle="tooltip">
+                            <i class="bi bi-pencil-square fs-5 text-danger"></i>
+                        </a>
+                    </li>
 
-    @auth
-    <li class="nav-item dropdown">
-        <a class="nav-link px-3 dropdown-toggle" href="#" role="button"
-            data-bs-toggle="dropdown" title="{{ Auth::user()->name }}" data-bs-toggle="tooltip">
-            <i class="bi bi-person-circle fs-5"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-end">
-            <a class="dropdown-item" href="{{ route('logout') }}"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="bi bi-box-arrow-right me-2"></i> Logout
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
-        </div>
-    </li>
-    @endauth
-</ul>
-          </div>
+                    @auth
+                    <li class="nav-item dropdown">
+                        <a class="nav-link px-3 dropdown-toggle fw-semibold text-dark" href="#" role="button"
+                            data-bs-toggle="dropdown" title="{{ Auth::user()->name }}" data-bs-toggle="tooltip">
+                            <i class="bi bi-person-circle fs-5 text-info"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3">
+                            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="bi bi-box-arrow-right me-2"></i> Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                    @endauth
+                </ul>
+            </div>
         </div>
     </nav>
 </header>

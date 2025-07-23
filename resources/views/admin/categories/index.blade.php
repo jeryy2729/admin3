@@ -1,138 +1,129 @@
 @extends('admin.layouts.app')
 
 @section('content')
+<!-- 
+@php
+    $isAdmin = auth()->guard('admin')->check();
+    $isBlogger = auth()->guard('web')->check() && auth()->user()?->hasRole('blogger');
+@endphp -->
 
-<div class="container-fluid">
-    <div class="row min-vh-100">
-        @include('components.alerts')
+<div class="container-fluid py-4">
+    @include('components.alerts')
 
-        <!-- Sidebar -->
-        <!-- <div class="col-md-3 col-sm-4 bg-light p-4 shadow-sm" style="border-right: 1px solid #dee2e6;">
-            <h5 class="mb-4 text-uppercase" style="color: #f96d41;">Admin Menu</h5>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a href="{{ route('categories.index') }}" class="nav-link text-dark {{ request()->is('categories') ? 'fw-bold' : '' }}"><i class="fas fa-list-alt me-1"></i>Categories</a>
-                </li> -->
-                <!-- Add other links here -->
-            <!-- </ul>
-        </div> -->
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="text-primary fw-bold">📂 All Categories</h2>
 
-        <!-- Main Content -->
-        <div class="col-md-9 col-sm-8 p-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2 class="mb-0">All Categories</h2>
-                        <a class="btn btn-primary" href="{{ route('categories.create') }}">Add New Category</a>
-                    </div>
-                                        <form method="GET" action="{{ route('categories.index') }}" class="mb-3">
-                        @if(request()->has('trashed'))
-                            <input type="hidden" name="trashed" value="true">
-                        @endif
-                        <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Search categories..." value="{{ request('search') }}">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" type="submit">Search</button>
-                            </div>
-                        </div>
-                    </form>
+                @if($isAdmin)
+                    <a class="btn btn-success shadow-sm" href="{{ route('categories.create') }}">
+                        <i class="fas fa-plus-circle me-1"></i> Add New Category
+                    </a>
+                @endif
+            </div>
 
+            <form method="GET" action="{{ route('categories.index') }}" class="mb-3">
+                @if(request()->has('trashed'))
+                    <input type="hidden" name="trashed" value="true">
+                @endif
+                <div class="input-group shadow-sm">
+                    <input type="text" name="search" class="form-control" placeholder="🔍 Search categories..." value="{{ request('search') }}">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </div>
+            </form>
 
- <a href="{{ $showTrashed ? route('categories.index') : route('categories.index', ['trashed' => true]) }}" 
-       class="btn btn-secondary mb-3">
-        {{ $showTrashed ? 'Show Active' : 'Show Trashed' }}
-    </a>
-                    <!-- @if ($message = Session::get('success'))
-                        <div class="alert alert-blue">
-                            <p class="mb-0">{{ $message }}</p>
-                        </div>
-                    @endif -->
+            @if($isAdmin)
+                <a href="{{ $showTrashed ? route('categories.index') : route('categories.index', ['trashed' => true]) }}" 
+                   class="btn btn-outline-secondary mb-3 shadow-sm">
+                    <i class="fas fa-trash-alt me-1"></i> {{ $showTrashed ? 'Show Active' : 'Show Trashed' }}
+                </a>
+            @endif
 
-                    <div class="table-responsive">
-                       <table class="table table-bordered table-hover">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle shadow-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            @if($isAdmin)
+                                <th width="200px">Actions</th>
+                            @endif
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($categories as $category)
+                            <tr>
+                                <td>{{ $category->id }}</td>
+                                <td class="fw-semibold text-info">{{ $category->name }}</td>
+                                <td><img src="{{ asset('storage/'.$category->image) }}" class="rounded shadow" style="height: 50px; width: 50px;"></td>
+                                <td>{!! \Illuminate\Support\Str::words($category->description, 5) !!}</td>
+                                <td>
+                                    @if($category->status)
+                                        <span class="badge bg-success">Active</span>
+                                    @else
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    @endif
+                                </td>
 
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Name</th>
-                                    <th>image</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th width="200px">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($categories as $category)
-                                <tr>
-                                    <td>{{ $category->id }}</td>
-                                    <td>{{ $category->name }}</td>
-                                    
-                            <td><img src="{{ asset('storage/'.$category->image) }}" style="height: 50px; width: 50px"></td>
-                            
-                                    <td>{!! $category->description !!}</td>
+                                @if($isAdmin)
                                     <td>
-                                        @if($category->status)
-                                            <span class="badge bg-success">Active</span>
+                                        @if ($showTrashed)
+                                            {{-- Restore --}}
+                                            <form action="{{ route('categories.restore', $category) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('PUT')
+                                                <button class="btn btn-sm btn-success" onclick="return confirm('Restore this category?')">
+                                                    <i class="fas fa-undo"></i> Restore
+                                                </button>
+                                            </form>
+
+                                            {{-- Erase --}}
+                                            <form action="{{ route('categories.forceDelete', $category) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-sm btn-danger" onclick="return confirm('Permanently delete this category?')">
+                                                    <i class="fas fa-trash"></i> Erase
+                                                </button>
+                                            </form>
                                         @else
-                                            <span class="badge bg-secondary">Inactive</span>
+                                            {{-- Edit --}}
+                                            <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+
+                                            {{-- Delete --}}
+                                            <form action="{{ route('categories.destroy', $category) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this category?')">
+                                                    <i class="fas fa-trash-alt"></i> Delete
+                                                </button>
+                                            </form>
                                         @endif
                                     </td>
-                                   
-              
-                 
-                                    <td>
-                                      @if ($showTrashed)
-    {{-- Restore Button --}}
-    <form action="{{ route('categories.restore', $category) }}" method="POST" style="display: inline;">
-        @csrf
-        @method('PUT')
-        <button class="btn btn-sm btn-success" onclick="return confirm('Restore this category?')">Restore</button>
-    </form>
+                                @endif
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="{{ $isAdmin ? 6 : 5 }}" class="text-center text-muted">No categories found.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
 
-    {{-- Permanent Delete Button --}}
-    <form action="{{ route('categories.forceDelete', $category) }}" method="POST" style="display:inline;">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-sm btn-danger" onclick="return confirm('Permanently delete this category?')">Erase</button>
-    </form>
-@else
-    {{-- Soft Delete --}}
-    <form action="{{ route('categories.destroy', $category) }}" method="POST" style="display:inline;">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this category?')">Delete</button>
-    </form>
-
-    {{-- Edit --}}
-    <form action="{{ route('categories.edit', $category) }}" method="GET" style="display:inline;">
-        <button class="btn btn-sm btn-blue">Edit</button>
-    </form>
-@endif
-
-                         </form>
-                                    </td>
-                                </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center text-muted">No categories found.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                        <div class="mt-3">
-    {{ $categories->withQueryString()->onEachSide(1)->links('pagination::bootstrap-4') }}
-
-</div>
-
-                    </div>
+                <div class="mt-3">
+                    {{ $categories->withQueryString()->onEachSide(1)->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+
 @if($errors->any())
-    <div class="alert alert-danger">
+    <div class="alert alert-danger mt-3">
         @foreach ($errors->all() as $error)
             <div>{{ $error }}</div>
         @endforeach
@@ -142,35 +133,28 @@
 @endsection
 
 @push('styles')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 <style>
-  
-    .btn-blue {
-        background-color: rgb(39, 26, 82);
-        color: white;
-        border: none;
+    .btn-primary {
+        background-color: #6f42c1;
+        border-color: #6f42c1;
     }
 
-    .btn-blue:hover {
-        background-color: #87CDEE;
-        color: white;
+    .btn-primary:hover {
+        background-color: #5a32a3;
     }
 
     h2 {
-        color: rgb(90, 63, 185);
+        color: #2c3e50;
     }
 
-    .alert-blue {
-        background-color: #007bff;
-        color: white;
-        border-radius: 5px;
-        padding: 10px;
-    }
-
-    .table th, .table td {
-        vertical-align: middle !important;
+    .table td, .table th {
+        vertical-align: middle;
     }
 </style>
-@endpush 
+@endpush
+
 @push('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -178,10 +162,7 @@
 
 <script>
     $(document).ready(function () {
-        // Don't use DataTables since we use Laravel's pagination
-        $('select').select2({
-            width: '100%'
-        });
+        $('select').select2({ width: '100%' });
     });
 </script>
 @endpush

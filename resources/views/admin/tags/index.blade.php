@@ -4,31 +4,33 @@
 
 <div class="container-fluid">
     <div class="row min-vh-100">
-        <!-- Main Content -->
         <div class="col-md-9 col-sm-8 p-4">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-lg border-0 rounded-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2 class="mb-0">All Tags</h2>
-                        <a class="btn btn-primary" href="{{ route('tags.create') }}">Add New Tag</a>
+                        <h2 class="mb-0 text-primary fw-bold"><i class="fas fa-tags"></i> All Tags</h2>
+                        <a class="btn btn-success" href="{{ route('tags.create') }}">
+                            <i class="fas fa-plus-circle"></i> Add New Tag
+                        </a>
                     </div>
- <a href="{{ $showTrashed ? route('tags.index') : route('tags.index', ['trashed' => true]) }}" 
-       class="btn btn-secondary mb-3">
-        {{ $showTrashed ? 'Show Active' : 'Show Trashed' }}
-    </a>
+
+                    <a href="{{ $showTrashed ? route('tags.index') : route('tags.index', ['trashed' => true]) }}" 
+                       class="btn btn-outline-info mb-3">
+                        <i class="fas fa-eye"></i> {{ $showTrashed ? 'Show Active' : 'Show Trashed' }}
+                    </a>
+
                     @if ($message = Session::get('success'))
-                        <div class="alert alert-success">
-                            <p class="mb-0">{{ $message }}</p>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>{{ $message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
                     @endif
 
                     <div class="table-responsive">
-                        <table id="tags-table" class="table table-bordered table-hover table-striped">
-
-
-                            <thead class="thead-dark">
+                        <table id="tags-table" class="table table-striped table-hover align-middle">
+                            <thead class="table-gradient text-white">
                                 <tr>
-                                    <th>S.No</th>
+                                    <th>#</th>
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Status</th>
@@ -37,52 +39,49 @@
                             </thead>
                             <tbody>
                                 @forelse ($tags as $tag)
-                                <tr>
-                                    <td>{{ $tag->id }}</td>
-                                  <td>{{ $tag->name }}</td> 
+                                    <tr>
+                                        <td>{{ $tag->id }}</td>
+                                        <td class="fw-semibold">{{ $tag->name }}</td>
+                                        <td>{!! \Illuminate\Support\Str::words($tag->description, 5) !!}</td>
+                                        <td>
+                                            @if($tag->status)
+                                                <span class="badge bg-success"><i class="fas fa-check-circle"></i> Active</span>
+                                            @else
+                                                <span class="badge bg-secondary"><i class="fas fa-times-circle"></i> Inactive</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($showTrashed)
+                                                <form action="{{ route('tags.restore', $tag) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button class="btn btn-sm btn-success" onclick="return confirm('Restore this tag?')">
+                                                        <i class="fas fa-undo-alt"></i> Restore
+                                                    </button>
+                                                </form>
 
-                                
-                                    <td>{!! $tag->description !!}</td>
-                                         <td>
-                                    
-                                        @if($tag->status)
-                                            <span class="badge bg-success">Active</span>
-                                        @else
-                                            <span class="badge bg-secondary">Inactive</span>
-                                        @endif
-                                    </td>
-                                   <td>
-                                      @if ($showTrashed)
-    {{-- Restore Button --}}
-    <form action="{{ route('tags.restore', $tag) }}" method="POST" style="display: inline;">
-        @csrf
-        @method('PUT')
-        <button class="btn btn-sm btn-success" onclick="return confirm('Restore this tag?')">Restore</button>
-    </form>
+                                                <form action="{{ route('tags.forceDelete', $tag) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Permanently delete this tag?')">
+                                                        <i class="fas fa-trash"></i> Erase
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <form action="{{ route('tags.destroy', $tag) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this tag?')">
+                                                        <i class="fas fa-trash-alt"></i> Delete
+                                                    </button>
+                                                </form>
 
-    {{-- Permanent Delete Button --}}
-    <form action="{{ route('tags.forceDelete', $tag) }}" method="POST" style="display:inline;">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-sm btn-danger" onclick="return confirm('Permanently delete this tag?')">Erase</button>
-    </form>
-@else
-    {{-- Soft Delete --}}
-    <form action="{{ route('tags.destroy', $tag) }}" method="POST" style="display:inline;">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this tag?')">Delete</button>
-    </form>
-
-    {{-- Edit --}}
-    <form action="{{ route('tags.edit', $tag) }}" method="GET" style="display:inline;">
-        <button class="btn btn-sm btn-blue">Edit</button>
-    </form>
-@endif
-
-                        
-                                    </td>
-                                </tr>
+                                                <a href="{{ route('tags.edit', $tag) }}" class="btn btn-sm btn-warning ms-1">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                            @endif
+                                        </td>
+                                    </tr>
                                 @empty
                                     <tr>
                                         <td colspan="5" class="text-center text-muted">No tags found.</td>
@@ -91,46 +90,11 @@
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+
 @endsection
-
-@push('styles')
-        <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <!-- Select2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
-       
-        <style>
-        .dataTables_length,
-        .dataTables_filter {
-            margin-bottom: 1rem;
-        }
-
-        /* Adjust select2 in DataTables */
-        .select2-container--default .select2-selection--single {
-            height: 38px;
-            padding: 5px 10px;
-        }
-
-        .select2-container {
-            margin-left: 5px;
-        }
-        </style>
-@endpush
-@push('scripts')
-   
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#tags-table').DataTable();
-        });
-    </script>
-
-@endpush
