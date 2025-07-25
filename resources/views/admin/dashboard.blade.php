@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
+@include('components.alerts')
 <div class="container-fluid py-4">
 @if(Auth::guard('admin')->check())
     Welcome, {{ Auth::guard('admin')->user()->name }}

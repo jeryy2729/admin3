@@ -139,16 +139,21 @@
                             data-bs-toggle="dropdown" title="{{ Auth::user()->name }}" data-bs-toggle="tooltip">
                             <i class="bi bi-person-circle fs-5 text-info"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3">
-                            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="bi bi-box-arrow-right me-2"></i> Logout
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
+<div class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3">
+    <a class="dropdown-item" href="{{ route('profile.edit') }}">
+        <i class="fas fa-user-circle me-2 text-primary"></i> Edit Profile
+    </a>
+
+    <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <i class="fas fa-sign-out-alt me-2 text-danger"></i> Logout
+    </a>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
+    </form>
+</div>
+                   </li>
                     @endauth
                 </ul>
             </div>

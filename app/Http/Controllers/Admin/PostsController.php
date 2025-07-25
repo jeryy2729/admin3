@@ -12,25 +12,18 @@ use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {    
-    // public function __construct()
-    // {
-    //     $this->middleware('permission:view posts')->only('index');
-    //     $this->middleware('permission:create posts')->only(['create', 'store']);
-    //     $this->middleware('permission:edit posts')->only(['edit', 'update']);
-    //     $this->middleware('permission:delete posts')->only('destroy');
-    // }
 
-public function __construct()
-{
-    // Allow admin, blogger, or staff to access index
-    $this->middleware('role:staff', ['only' => ['show']]);
+// public function __construct()
+// {
+//     // Allow admin, blogger, or staff to access index
+//     $this->middleware('role:staff', ['only' => ['index']]);
 
-    // All other methods allowed only for admin or blogger
+//     // All other methods allowed only for admin or blogger
     
-    // $this->middleware('role:admin|blogger', ['except' => ['index']]);
+//     // $this->middleware('role:admin|blogger', ['except' => ['index']]);
    
 
-}
+// }
 
 
 public function create()
@@ -41,14 +34,7 @@ public function create()
     return view('admin.posts.create', compact('categories', 'tags'));
 }
 
-    // public function index()
-    // {
-    //     $posts = Post::latest()->get();
-
-    //     foreach ($posts as $post) {
-    //         $tagIds = explode(',', $post->tags);
-    //         $post->tag_names = Tag::whereIn('id', $tagIds)->pluck('name')->toArray();
-    //     }
+  
 public function index(Request $request)
 {
     $showTrashed = $request->has('trashed');

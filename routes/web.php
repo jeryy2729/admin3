@@ -22,13 +22,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BlogsingleController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\ProfileController;
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
-Route::middleware(['auth', 'role:staff'])->group(function () {
-    Route::get('staff/posts', [PostsController::class, 'show'])->name('staff.posts.show');
-});
 
 Route::prefix('admin')->group(function () {
     Route::get('register', [RegisterController::class,'showregistrationform'])->name('admin.register');
@@ -63,6 +61,9 @@ Route::middleware(['admin.or.blogger'])->group(function () {
         Route::resource('users', UsersController::class);
         Route::resource('comments', CommentsController::class);
         Route::patch('posts/{slug}/approve', [PostsController::class, 'approve'])->name('admin.posts.approve');
+          Route::get('/profile/edit', [AdminController::class, 'edit'])->name('admin.profile.edit');
+    Route::post('/profile/update', [AdminController::class, 'update'])->name('admin.profile.update');
+ 
     });
 });
 });
@@ -104,6 +105,12 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::post('/comments/{comment}/reply', [CommentController::class, 'reply'])->name('comments.reply');
 
 Route::get('/posts/{slug}', [PostController::class, 'showPublic'])->name('frontend.posts.show');
+ Route::get('/tags/post/{slug}', [TagController::class, 'show'])->name('frontend.tag-post');
+
+    Route::put('/comments', [CommentController::class, 'store'])->name('comments.store');
+       Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+ 
 });
 
 

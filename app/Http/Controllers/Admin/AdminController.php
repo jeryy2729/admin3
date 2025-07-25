@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Admin;
 use App\Models\Comment;
 use App\Models\Category;
-
+use Illuminate\Support\Facades\Auth; // ✅ CORRECT
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 
 class AdminController extends Controller
 {
@@ -52,17 +55,33 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
         //
+        $admin=Auth::guard('admin')->user();
+        return view('admin.profile.edit',compact('admin'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, )
     {
         //
+                $request->validate([
+            'name' => 'required|string|max:255',
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+        $admin=Auth::guard('admin')->user();
+
+        $admin->name = $request->name;
+         if ($request->password) {
+            $admin->password = Hash::make($request->password);
+        }
+        $admin->save();
+            return redirect()->route('admin.home')->with('success', 'Profile updated successfully.');
+            
+    
     }
 
     /**

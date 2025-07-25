@@ -37,17 +37,25 @@
                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ $admin->name }}
                         </a>
+<div class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3">
+    {{-- Edit Profile --}}
+    <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.profile.edit') }}">
+        <i class="fas fa-user-circle me-2 text-primary"></i>
+        <span>Edit Profile</span>
+    </a>
 
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="{{ route('admin.logout') }}"
-                               onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
+    {{-- Logout --}}
+    <a class="dropdown-item d-flex align-items-center text-danger" href="{{ route('admin.logout') }}"
+       onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();">
+        <i class="fas fa-sign-out-alt me-2"></i>
+        <span>Logout</span>
+    </a>
 
-                            <form id="admin-logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
+    {{-- Hidden Logout Form --}}
+    <form id="admin-logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
+        @csrf
+    </form>
+</div>
                     </li>
 
                 {{-- If Blogger is logged in --}}
