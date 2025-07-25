@@ -68,9 +68,9 @@ class LoginController extends Controller
         if ($user->hasRole('blogger')) {
             return redirect()->route('admin.home');
         }
-         elseif ($user->hasRole('staff')) {
-    return redirect()->route('admin.home');
-}
+//          elseif ($user->hasRole('staff')) {
+//     return redirect()->route('admin.home');
+// }
 
         else {
             Auth::guard('web')->logout();

@@ -7,6 +7,10 @@ use App\Http\Requests\Tags\UpdateRequest;// ✅ Add this line
 use App\Models\Tag;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Imports\TagsImport;
+use App\Exports\TagsExport; 
+
+use Maatwebsite\Excel\Facades\Excel;
 
 class TagsController extends Controller
 {
@@ -74,8 +78,8 @@ $tag->description = strip_tags($request->input('description'));
  
     $tag->slug = Str::slug($request->input('name'), '-');
 
-        $tag->description = $request->input('description');
-            $tag->status = $request->input('status') ?? 0;
+$tag->description = strip_tags($request->input('description'));
+
 
         if ($tag->update()) {
             return redirect()->route('tags.index')->with('success', 'Data has been updated successfully.');
@@ -113,6 +117,24 @@ public function forceDelete($slug)
             ->with('error', 'Tag could not be permanently deleted.');
     }
 }
+//    public function import()
+// {
+//     return view("excel");
+// }
+ public function import_post(Request $request)
+{
+    // $request->validate([
+    //     'excel_file' => 'required|file|mimes:xlsx,xls,csv',
+    // ]);
 
+    Excel::import(new TagsImport, $request->file('excel_file'));
+
+    return back()->with('success', 'Tags imported successfully.');
+}
+
+public function export()
+{
+    return Excel::download(new TagsExport, 'tags.xlsx');
+}
 
 }

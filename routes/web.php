@@ -27,6 +27,8 @@ use App\Http\Controllers\ProfileController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+      Route::get('excel', [UsersController::class,'import'])->name('users.import');
+     Route::post('excel', [UsersController::class,'import_post'])->name('users.import');
 
 Route::prefix('admin')->group(function () {
     Route::get('register', [RegisterController::class,'showregistrationform'])->name('admin.register');
@@ -59,6 +61,10 @@ Route::middleware(['admin.or.blogger'])->group(function () {
         Route::resource('permissions', PermissionsController::class);
         Route::resource('roles', RolesController::class);
         Route::resource('users', UsersController::class);
+
+    Route::post('excel', [TagsController::class,'import_post'])->name('tags.import'); 
+    Route::post('export_tags', [TagsController::class,'export'])->name('tags.export');  
+
         Route::resource('comments', CommentsController::class);
         Route::patch('posts/{slug}/approve', [PostsController::class, 'approve'])->name('admin.posts.approve');
           Route::get('/profile/edit', [AdminController::class, 'edit'])->name('admin.profile.edit');
