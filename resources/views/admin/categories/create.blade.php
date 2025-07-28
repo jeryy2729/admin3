@@ -61,6 +61,38 @@
                             </button>
                         </div>
                     </form>
+  {{-- ================= Import Tags from Excel ================= --}}
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header text-white rounded-top-4" style="background: linear-gradient(135deg, #41a0f9, #1d68e0);">
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-file-excel me-2"></i> Import Categories from Excel</h4>
+                </div>
+
+                <div class="card-body px-5 py-4">
+                    <form action="{{ route('categories.import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+
+                        <div class="row">
+                            {{-- File Upload --}}
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">
+                                    <i class="fas fa-upload me-1 text-primary"></i> Upload Excel File
+                                </label>
+                                <input type="file" name="excel_file" class="form-control">
+                                @error('excel_file')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        {{-- Submit Button --}}
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill">
+                                <i class="fas fa-file-import me-1"></i> Import Categories
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
                 </div>
             </div>

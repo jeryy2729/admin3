@@ -7,10 +7,15 @@
         <div class="col-md-9 col-sm-8 p-4">
             <div class="card shadow-lg border-0 rounded-4">
                 <div class="card-body">
-<form action="{{ route('tags.export') }}" method="POST" style="display:inline;"> 
-    @csrf
-    <button type="submit" class="btn btn-success">Export Tags</button>
-</form>
+<div class="mb-3 d-flex justify-content-end">
+    <form action="{{ route('tags.export') }}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-file-export me-1"></i> Export Tags
+        </button>
+    </form>
+</div>
+
 
 
                     <div class="d-flex justify-content-between align-items-center mb-4">

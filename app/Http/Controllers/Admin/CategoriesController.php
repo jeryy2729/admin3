@@ -7,7 +7,10 @@ use App\Http\Requests\Categories\UpdateRequest;// ✅ Add this line
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Imports\CategoriesImport;
+use App\Exports\CategoriesExport; 
 
+use Maatwebsite\Excel\Facades\Excel;
 class CategoriesController extends Controller
 {
     
@@ -147,5 +150,16 @@ public function forceDelete($slug)
 // {
 //     return redirect()->route('categories.index');
 // }
+ public function import_category(Request $request)
+{
+
+    Excel::import(new CategoriesImport, $request->file('excel_file'));
+
+    return back()->with('success', 'Categories imported successfully.');
+}
+public function export()
+{
+    return Excel::download(new CategoriesExport, 'categories.xlsx');
+}
 
 }

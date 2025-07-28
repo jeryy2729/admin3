@@ -12,6 +12,15 @@
 
     <div class="card shadow-lg border-0">
         <div class="card-body">
+            <div class="mb-3 d-flex justify-content-end">
+    <form action="{{ route('categories.export') }}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-file-export me-1"></i> Export Categories
+        </button>
+    </form>
+</div>
+
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="text-primary fw-bold">📂 All Categories</h2>
 

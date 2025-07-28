@@ -53,6 +53,8 @@ Route::middleware(['admin.or.blogger'])->group(function () {
         Route::resource('categories', CategoriesController::class);
         Route::put('categories/restore/{slug}', [CategoriesController::class, 'restore'])->name('categories.restore');
         Route::delete('categories/force-delete/{slug}', [CategoriesController::class, 'forceDelete'])->name('categories.forceDelete');
+    Route::post('categoryimport', [CategoriesController::class,'import_category'])->name('categories.import'); 
+    Route::post('export_categories', [CategoriesController::class,'export'])->name('categories.export');  
 
         Route::resource('tags', TagsController::class);
         Route::put('tags/restore/{slug}', [TagsController::class, 'restore'])->name('tags.restore');
