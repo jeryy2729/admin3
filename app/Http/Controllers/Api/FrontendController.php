@@ -6,6 +6,10 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\TagResource;
+
 
 class FrontendController extends Controller
 {
@@ -17,7 +21,8 @@ class FrontendController extends Controller
 
 public function getAllposts()
 {
-    $posts = Post::where('is_featured', 1)
+    $posts = Post::with('category') // eager load the relation
+        ->where('is_featured', 1)
         ->where('status', 1)
         ->where(function ($query) {
             $query->whereNull('user_id')
@@ -29,11 +34,11 @@ public function getAllposts()
         ->latest()
         ->get();
 
-     return response()->json([
+    return response()->json([
         'status' => 'success',
-        'data' => $posts,]);
+        'data' => PostResource::collection($posts), // ✅ Use the resource here
+    ]);
 }
-
 
 public function getAllcategories()
 {
@@ -41,17 +46,15 @@ public function getAllcategories()
       
      return response()->json([
         'status' => 'success',
-        'data' => $categories,]);
+        'data' => CategoryResource::collection($categories),]);
 }
 
 
 public function getAlltags()
 {
     $tags = Tag::where('status', 1)->get();
-      
-     return response()->json([
-        'status' => 'success',
-        'data' => $tags,]);
+          return TagResource::collection($tags);
+
 }
 
 

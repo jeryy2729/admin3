@@ -5,6 +5,8 @@ use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\PostResource;
 
 class CategoryController extends Controller
 {
@@ -28,7 +30,7 @@ public function getpostsbycategory($slug)
 return response()->json([
         'status' => 'success',
         'category' => $category->name,
-        'data' => $posts,
+        'data' => PostResource::collection($posts),
 ]);
       
     }
@@ -53,9 +55,6 @@ public function search(Request $Request,$slug)
             ], 404);
         }
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $category
-        ]);
+   return new CategoryResource($category); // ✅ correct
 }
 }

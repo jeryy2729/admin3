@@ -5,6 +5,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 
 class TagController extends Controller
 {
@@ -27,8 +28,7 @@ public function getpostsbytag($slug)
 
     return response()->json([
         'status' => 'success',
-        'Tag' => $tag->name,
-        'data' => $posts,
+        'data' => PostResource::collection($posts),
     ]);
 }
 }
