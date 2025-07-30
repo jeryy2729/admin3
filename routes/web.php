@@ -39,6 +39,7 @@ Route::prefix('admin')->group(function () {
     // Shared dashboard
    // ✅ Admin dashboard access (Admin or Blogger)
 Route::middleware(['admin.or.blogger'])->group(function () {
+
     Route::get('/home', [AdminController::class, 'index'])->name('admin.home');
 
     // ✅ Blogger & Admin (posts)

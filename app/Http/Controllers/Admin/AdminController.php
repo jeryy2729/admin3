@@ -23,9 +23,12 @@ class AdminController extends Controller
                 $totalcategories=Category::count();
                         $totalcomments=Comment::count();
                         $totaluser=User::count();
+$pendingApprovals = Post::where('is_approved', 0)
+                         ->whereNotNull('user_id') // Means created by a user
+                         ->count();
 
 
-        return view('admin.dashboard',compact('totalposts','totalcategories','totaluser','totalcomments'));
+        return view('admin.dashboard',compact('totalposts', 'pendingApprovals','totalcategories','totaluser','totalcomments'));
     }
 
     /**
