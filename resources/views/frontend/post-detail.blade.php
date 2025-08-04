@@ -45,6 +45,12 @@
                             </li>
                         @endforeach
                     </ul>
+{{-- Related Products Button --}}
+<div class="mt-4">
+    <a href="{{ route('frontend.post.products', $post->id) }}" class="btn btn-outline-primary">
+        🛍️ View Related Products
+    </a>
+</div>
 
                     <h5 class="mb-3 border-bottom pb-2 fw-bold text-primary">🏷️ Tags</h5>
                     <ul class="list-unstyled">
