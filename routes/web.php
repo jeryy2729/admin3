@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\TagsController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\CommentsController;
@@ -72,7 +73,8 @@ Route::middleware(['admin.or.blogger'])->group(function () {
         Route::patch('posts/{slug}/approve', [PostsController::class, 'approve'])->name('admin.posts.approve');
           Route::get('/profile/edit', [AdminController::class, 'edit'])->name('admin.profile.edit');
     Route::post('/profile/update', [AdminController::class, 'update'])->name('admin.profile.update');
- 
+         Route::resource('products', ProductsController::class);
+
     });
 });
 });

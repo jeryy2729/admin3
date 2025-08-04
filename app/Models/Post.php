@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class Post extends Model
 {
-    protected $fillable = ['category_id', 'tags','description','status','name','user_id', 'is_approved','slug','image','is_featured'];
+    protected $fillable = ['category_id', 'tags','description','status','name','user_id', 'is_approved','slug','image','is_featured','product_id'];
 
     // public function getTagListAttribute()
     // {
@@ -33,6 +33,7 @@ class Post extends Model
 {
     return $this->hasMany(Comment::class, 'post_id')->latest();
 }
+ 
 public function user()
 {
     return $this->belongsTo(User::class, 'user_id');
@@ -43,6 +44,9 @@ public function user()
 {
     return 'slug';
 }
-
+  public function products()
+{
+    return $this->hasMany(Product::class, 'post_id')->latest();
+}
 }
 
