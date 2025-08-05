@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\LoginController as UserLoginController;
 use App\Http\Controllers\Auth\RegisterController as UserRegisterController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CategoryController;
@@ -118,12 +119,18 @@ Route::prefix('user')->name('user.')->group(function () {
 
 Route::get('/posts/{slug}', [PostController::class, 'showPublic'])->name('frontend.posts.show');
  Route::get('/tags/post/{slug}', [TagController::class, 'show'])->name('frontend.tag-post');
-    Route::get('{post}/products', [ProductController::class, 'showProducts'])->name('frontend.post.products');
+// For slug binding
+Route::get('post/{post:slug}/products', [ProductController::class, 'showProducts'])->name('frontend.post.products');
 
     Route::put('/comments', [CommentController::class, 'store'])->name('comments.store');
        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
- 
+   Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/decrease/{id}', [CartController::class, 'decreasequantity'])->name('cart.decrease');
+Route::post('/cart/increase/{id}', [CartController::class, 'increasequantity'])->name('cart.increase');
+
 });
 
 

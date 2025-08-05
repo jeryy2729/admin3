@@ -8,11 +8,12 @@ use App\Models\Post;
 class ProductController extends Controller
 {
     //
-    public function showProducts(Post $post)
+ public function showProducts(Post $post)
 {
-    $products = $post->products()->latest()->get();
-
-    return view('frontend.posts.products', compact('post', 'products'));
+    $products = $post->products()->latest()->get(); // Now uses the pivot table
+    return view('frontend.products.index', compact('post', 'products'));
 }
+
+
 
 }

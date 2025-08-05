@@ -25,6 +25,13 @@
                     Tags
                 </a>
             </li>
+             <li class="nav-item mb-3">
+                <a href="{{ route('cart.index') }}" class="nav-link sidebar-link {{ request()->routeIs('cart.index') ? 'active' : '' }}">
+<i class="bi bi-cart-fill me-2 fs-5"></i>
+                    Cart
+                </a>
+            </li>
+
             <li class="nav-item mb-3">
                 <a href="#" class="nav-link sidebar-link">
                     <i class="bi bi-envelope-fill me-2 fs-5"></i>

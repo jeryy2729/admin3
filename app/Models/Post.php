@@ -44,9 +44,10 @@ public function user()
 {
     return 'slug';
 }
-  public function products()
+ public function products()
 {
-    return $this->hasMany(Product::class, 'post_id')->latest();
+    return $this->belongsToMany(Product::class, 'post_product')->latest();
 }
+
 }
 
