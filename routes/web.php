@@ -19,6 +19,7 @@ use App\Http\Controllers\Auth\RegisterController as UserRegisterController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CategoryController;
@@ -130,6 +131,9 @@ Route::get('post/{post:slug}/products', [ProductController::class, 'showProducts
     Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
     Route::post('/cart/decrease/{id}', [CartController::class, 'decreasequantity'])->name('cart.decrease');
 Route::post('/cart/increase/{id}', [CartController::class, 'increasequantity'])->name('cart.increase');
+Route::get('/checkout', [PaymentController::class, 'show'])->name('checkout.show');
+Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent'])->name('create.payment.intent');
+Route::post('/checkout/process', [PaymentController::class, 'processCheckout'])->name('checkout.process');
 
 });
 

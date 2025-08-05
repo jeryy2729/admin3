@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Session;
 class CartController extends Controller
 {
     public function index()
@@ -93,5 +93,6 @@ class CartController extends Controller
 
         return back()->with('error', 'No more stock available for this product.');
     }
+    
 
 }

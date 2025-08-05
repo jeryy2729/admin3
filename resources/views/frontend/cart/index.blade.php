@@ -86,6 +86,8 @@
                 </div>
             </div>
         </div>
+                    <a href="{{ route('checkout.show') }}" class="btn btn-outline-primary mt-3">Checkout</a>
+
     @else
         <!-- Empty Cart Message -->
         <div class="text-center">
