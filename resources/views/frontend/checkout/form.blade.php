@@ -21,11 +21,11 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">Full Name</label>
-                                <input type="text" name="customerName" value="{{ $user->name ?? '' }}" required class="form-control shadow-sm">
+                                <input type="text" name="customerName" value="{{ $user->name ?? '' }}" required class="form-control shadow-sm" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Email</label>
-                                <input type="email" name="customerEmail" value="{{ $user->email ?? '' }}" required class="form-control shadow-sm">
+                                <input type="email" name="customerEmail" value="{{ $user->email ?? '' }}" required class="form-control shadow-sm" readonly>
                             </div>
                         </div>
 
@@ -45,7 +45,7 @@
                         </div>
 
                         <button id="submit-button" class="btn btn-lg btn-primary w-100 shadow">
-                            <i class="bi bi-lock-fill me-2"></i>Pay ${{ $amount_display }}
+                            <i class="bi bi-lock-fill me-2"></i>Pay PKR{{ $amount_display }}
                         </button>
                     </form>
 
