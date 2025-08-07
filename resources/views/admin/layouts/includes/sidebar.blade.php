@@ -37,11 +37,18 @@
                     <i class="fas fa-user-shield me-2"></i> Roles
                 </a>
             </li>
-            <li class="nav-item mb-2">
-                <a href="{{ route('products.index') }}" class="nav-link">
-                    <i class="fas fa-user-shield me-2"></i> Products
-                </a>
-            </li>
+           <li class="nav-item mb-2">
+    <a href="{{ route('products.index') }}" class="nav-link">
+        <i class="fas fa-box-open me-2"></i> Products
+    </a>
+</li>
+
+<li class="nav-item mb-2">
+    <a href="{{ route('orders.index') }}" class="nav-link">
+        <i class="fas fa-shopping-cart me-2"></i> Orders
+    </a>
+</li>
+
  @endauth
  @auth
 

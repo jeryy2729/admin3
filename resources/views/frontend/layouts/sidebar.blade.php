@@ -30,7 +30,12 @@
 <i class="bi bi-cart-fill me-2 fs-5"></i>
                     Cart
                 </a>
-            </li>
+            </li><li class="nav-item mb-3">
+                <a href="{{ route('orders.history') }}" class="nav-link sidebar-link {{ request()->routeIs('orders.index') ? 'active' : '' }}">
+        <i class="bi bi-clock-history me-2 fs-5"></i>History
+    </a>
+</li>
+
 
             <li class="nav-item mb-3">
                 <a href="#" class="nav-link sidebar-link">

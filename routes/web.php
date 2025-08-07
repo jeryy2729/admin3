@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\TagsController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\CommentsController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CategoryController;
@@ -77,6 +79,7 @@ Route::middleware(['admin.or.blogger'])->group(function () {
           Route::get('/profile/edit', [AdminController::class, 'edit'])->name('admin.profile.edit');
     Route::post('/profile/update', [AdminController::class, 'update'])->name('admin.profile.update');
          Route::resource('products', ProductsController::class);
+         Route::resource('orders', OrdersController::class);
 
     });
 });
@@ -106,6 +109,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::prefix('user')->name('user.')->group(function () {
     Route::resource('posts', PostController::class);
 });
+    Route::get('/orders/history', [OrderController::class, 'history'])->name('orders.history');
+
     Route::get('/authposts', [PostController::class, 'authindex'])->name('frontend.authpost');
     Route::get('/post/{slug}', [PostController::class, 'show'])->name('frontend.post-detail');
 
