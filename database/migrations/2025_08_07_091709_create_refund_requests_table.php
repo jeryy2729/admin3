@@ -12,9 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('refund_requests', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+    $table->id();
+    $table->unsignedBigInteger('order_id');
+    $table->unsignedBigInteger('user_id');
+    $table->text('reason');
+    $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+    $table->timestamps();
+});
     }
 
     /**

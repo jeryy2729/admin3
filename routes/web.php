@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\TagsController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\AdminRefundController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\PermissionsController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\RefundController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CategoryController;
@@ -80,6 +82,10 @@ Route::middleware(['admin.or.blogger'])->group(function () {
     Route::post('/profile/update', [AdminController::class, 'update'])->name('admin.profile.update');
          Route::resource('products', ProductsController::class);
          Route::resource('orders', OrdersController::class);
+             Route::get('/refunds', [AdminRefundController::class, 'index'])->name('admin.refunds.index');
+    Route::post('/refunds/{id}/approve', [AdminRefundController::class, 'approve'])->name('admin.refunds.approve');
+    Route::post('/refunds/{id}/reject', [AdminRefundController::class, 'reject'])->name('admin.refunds.reject');
+
 
     });
 });
@@ -139,6 +145,7 @@ Route::post('/cart/increase/{id}', [CartController::class, 'increasequantity'])-
 Route::get('/checkout', [PaymentController::class, 'show'])->name('checkout.show');
 Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent'])->name('create.payment.intent');
 Route::post('/checkout/process', [PaymentController::class, 'processCheckout'])->name('checkout.process');
+    Route::post('/orders/{order}/refund', [RefundController::class, 'requestRefund'])->name('refund.request');
 
 });
 

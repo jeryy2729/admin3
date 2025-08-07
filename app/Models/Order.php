@@ -10,5 +10,9 @@ class Order extends Model
         protected $fillable = [
         'user_id', 'name', 'email', 'phone', 'address', 'products', 'total_amount', 'status'
     ];
+public function refundRequest()
+{
+    return $this->hasOne(\App\Models\RefundRequest::class);
+}
 
 }
