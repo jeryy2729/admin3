@@ -7,16 +7,22 @@
                     <i class="fas fa-list-alt me-2"></i> Categories
                 </a>
             </li>
+              <li class="nav-item mb-2">
+                <a href="{{ route('languages.index') }}" class="nav-link">
+                    <i class="fas fa-list-alt me-2"></i> Languages
+                </a>
+            </li>
+          
             <li class="nav-item mb-2">
                 <a href="{{ route('tags.index') }}" class="nav-link">
                     <i class="fas fa-tags me-2"></i> Tags
                 </a>
             </li>
-            <li class="nav-item mb-2">
+            <!-- <li class="nav-item mb-2">
                 <a href="{{ route('posts.index') }}" class="nav-link">
                     <i class="fa-solid fa-file-lines me-2"></i> Posts
                 </a>
-            </li>
+            </li> -->
             <li class="nav-item mb-2">
                 <a href="{{ route('users.index') }}" class="nav-link">
                     <i class="fas fa-users me-2"></i> Users

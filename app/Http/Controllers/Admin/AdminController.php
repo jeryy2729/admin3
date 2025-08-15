@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Admin;
 use App\Models\Comment;
 use App\Models\Category;
+use App\Models\Language;
 use Illuminate\Support\Facades\Auth; // ✅ CORRECT
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -22,13 +23,14 @@ class AdminController extends Controller
         $totalposts=Post::count();
                 $totalcategories=Category::count();
                         $totalcomments=Comment::count();
+                        $languages=Language::all();
                         $totaluser=User::count();
 $pendingApprovals = Post::where('is_approved', 0)
                          ->whereNotNull('user_id') // Means created by a user
                          ->count();
 
 
-        return view('admin.dashboard',compact('totalposts', 'pendingApprovals','totalcategories','totaluser','totalcomments'));
+        return view('admin.dashboard',compact('totalposts','languages', 'pendingApprovals','totalcategories','totaluser','totalcomments'));
     }
 
     /**

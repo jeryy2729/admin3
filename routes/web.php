@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AdminRefundController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\PermissionsController;
+use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\CommentsController;
 use App\Http\Controllers\Admin\AdminController;
@@ -46,19 +47,19 @@ Route::prefix('admin')->group(function () {
     Route::post('logout', [LoginController::class,'logout'])->name('admin.logout');
     // Shared dashboard
    // ✅ Admin dashboard access (Admin or Blogger)
-Route::middleware(['admin.or.blogger'])->group(function () {
+Route::middleware(['admin.or.blogger','lang'])->group(function () {
 
     Route::get('/home', [AdminController::class, 'index'])->name('admin.home');
 
     // ✅ Blogger & Admin (posts)
-    Route::middleware(['admin.or.blogger'])->group(function () {
+    Route::middleware(['admin.or.blogger','lang'])->group(function () {
         Route::resource('posts', PostsController::class);
         Route::put('posts/restore/{slug}', [PostsController::class, 'restore'])->name('posts.restore');
         Route::delete('posts/force-delete/{slug}', [PostsController::class, 'forceDelete'])->name('posts.forceDelete');
     });
 
     // ✅ Admin Only
-    Route::middleware('role:admin,admin')->group(function () {
+    Route::middleware('role:admin,admin','lang')->group(function () {
         Route::resource('categories', CategoriesController::class);
         Route::put('categories/restore/{slug}', [CategoriesController::class, 'restore'])->name('categories.restore');
         Route::delete('categories/force-delete/{slug}', [CategoriesController::class, 'forceDelete'])->name('categories.forceDelete');
@@ -72,6 +73,7 @@ Route::middleware(['admin.or.blogger'])->group(function () {
         Route::resource('permissions', PermissionsController::class);
         Route::resource('roles', RolesController::class);
         Route::resource('users', UsersController::class);
+        Route::resource('languages', LanguageController::class);
 
     Route::post('excel', [TagsController::class,'import_post'])->name('tags.import'); 
     Route::post('export_tags', [TagsController::class,'export'])->name('tags.export');  
@@ -86,6 +88,7 @@ Route::middleware(['admin.or.blogger'])->group(function () {
     Route::post('/refunds/{id}/approve', [AdminRefundController::class, 'approve'])->name('admin.refunds.approve');
     Route::post('/refunds/{id}/reject', [AdminRefundController::class, 'reject'])->name('admin.refunds.reject');
 
+   Route::get('/lang/{locale}', [LanguageController::class, 'setLanguage'])->name('setLocale');
 
     });
 });
@@ -110,7 +113,7 @@ Auth::routes(['verify' => true]);
 Route::get('/about', [AboutController::class, 'index'])->name('frontend.about');
 
 // Protected Routes - Only for Logged-In & Verified Users
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified','lang'])->group(function () {
     Route::get('/front', [FrontendController::class, 'index'])->name('frontend.index');
 Route::prefix('user')->name('user.')->group(function () {
     Route::resource('posts', PostController::class);

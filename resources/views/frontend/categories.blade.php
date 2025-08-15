@@ -16,7 +16,7 @@
                 <form method="GET" action="{{ route('frontend.categories') }}">
                     <div class="input-group mb-4 shadow-sm">
                         <input type="text" name="search" class="form-control rounded-start" placeholder="Search categories..." value="{{ $search ?? '' }}" style="height: 45px;">
-                        <button type="submit" class="btn btn-primary rounded-end px-4" style="height: 45px;">Search</button>
+                        <button type="submit" class="btn btn-primary rounded-end px-4" style="height: 45px;">{{ __('messages.search') }}</button>
                     </div>
                 </form>
 

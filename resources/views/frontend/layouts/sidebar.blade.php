@@ -10,29 +10,31 @@
             <li class="nav-item mb-3">
                 <a href="{{ route('frontend.index') }}" class="nav-link sidebar-link {{ request()->routeIs('frontend.index') ? 'active' : '' }}">
                     <i class="bi bi-house-fill me-2 fs-5"></i>
-                    Home
+    {{ __('messages.home') }}
                 </a>
             </li>
             <li class="nav-item mb-3">
                 <a href="{{ route('frontend.categories') }}" class="nav-link sidebar-link {{ request()->routeIs('frontend.categories') ? 'active' : '' }}">
                     <i class="bi bi-grid-fill me-2 fs-5"></i>
-                    Categories
+    {{ __('messages.category') }}
                 </a>
             </li>
             <li class="nav-item mb-3">
                 <a href="{{ route('frontend.tags') }}" class="nav-link sidebar-link {{ request()->routeIs('frontend.tags') ? 'active' : '' }}">
                     <i class="bi bi-tags-fill me-2 fs-5"></i>
-                    Tags
+                {{ __('messages.tag') }}
+
                 </a>
             </li>
              <li class="nav-item mb-3">
                 <a href="{{ route('cart.index') }}" class="nav-link sidebar-link {{ request()->routeIs('cart.index') ? 'active' : '' }}">
 <i class="bi bi-cart-fill me-2 fs-5"></i>
-                    Cart
+    {{ __('messages.cart') }}
                 </a>
             </li><li class="nav-item mb-3">
                 <a href="{{ route('orders.history') }}" class="nav-link sidebar-link {{ request()->routeIs('orders.index') ? 'active' : '' }}">
-        <i class="bi bi-clock-history me-2 fs-5"></i>History
+        <i class="bi bi-clock-history me-2 fs-5"></i>    {{ __('messages.history') }}
+
     </a>
 </li>
 

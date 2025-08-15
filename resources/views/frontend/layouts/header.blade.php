@@ -112,23 +112,24 @@
 
             <div class="collapse navbar-collapse text-center" id="navbarsExample09">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
-                    <li class="nav-item">
-                        <a class="nav-link px-3 fw-semibold text-dark" href="{{ route('frontend.index') }}" title="Home" data-bs-toggle="tooltip">
-                            <i class="bi bi-house-door-fill fs-5 text-primary"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3 fw-semibold text-dark" href="{{ route('frontend.tags') }}" title="Tags" data-bs-toggle="tooltip">
+                  <li class="nav-item">
+    <a class="nav-link px-3 fw-semibold text-dark" href="{{ route('frontend.index') }}" 
+       title="{{ __('messages.home') }}" data-bs-toggle="tooltip">
+        <i class="bi bi-house-door-fill fs-5 text-primary"></i>
+    </a>
+</li>
+  <li class="nav-item">
+                        <a class="nav-link px-3 fw-semibold text-dark" href="{{ route('frontend.tags') }}" title="{{ __('messages.tag') }}" data-bs-toggle="tooltip">
                             <i class="bi bi-tags-fill fs-5 text-success"></i>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3 fw-semibold text-dark" href="{{ route('frontend.categories') }}" title="Categories" data-bs-toggle="tooltip">
+                        <a class="nav-link px-3 fw-semibold text-dark" href="{{ route('frontend.categories') }}" title="{{ __('messages.category') }}" data-bs-toggle="tooltip">
                             <i class="bi bi-list-ul fs-5 text-warning"></i>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3 fw-semibold text-dark" href="{{ route('frontend.authpost') }}" title="Post" data-bs-toggle="tooltip">
+                        <a class="nav-link px-3 fw-semibold text-dark" href="{{ route('frontend.authpost') }}" title="{{ __('messages.post') }}" data-bs-toggle="tooltip">
                             <i class="bi bi-pencil-square fs-5 text-danger"></i>
                         </a>
                     </li>

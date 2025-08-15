@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
                 'admin.or.blogger' => \App\Http\Middleware\AdminOrBloggerMiddleware::class,
+                'lang' => \App\Http\Middleware\LanguageMiddleware::class,
 
         ]);
 
