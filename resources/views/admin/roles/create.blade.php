@@ -35,19 +35,36 @@
         <i class="fas fa-shield-alt me-1 text-success"></i> Assign Permissions
     </label>
 
-    <div class="row">
-        @foreach ($permissions as $permission)
-            <div class="col-md-4 mb-2">
-                <div class="form-check">
-                    <input 
-                        class="form-check-input" 
-                        type="checkbox" 
-                        name="permissions[]" 
-                        value="{{ $permission->id }}" 
-                        id="permission-{{ $permission->id }}">
-                    <label class="form-check-label" for="permission-{{ $permission->id }}">
-                        {{ $permission->name }}
-                    </label>
+    <div class="accordion" id="permissionsAccordion">
+        @foreach ($permissions->groupBy(function($perm) {
+            return explode(' ', $perm->name)[0]; // Group by first word (e.g., 'Post', 'Category', 'Tag')
+        }) as $group => $groupPermissions)
+            <div class="accordion-item border-0 shadow-sm mb-2">
+                <h2 class="accordion-header" id="heading-{{ $group }}">
+                    <button class="accordion-button fw-semibold text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $group }}" aria-expanded="true">
+                        {{ ucfirst($group) }} Permissions
+                    </button>
+                </h2>
+                <div id="collapse-{{ $group }}" class="accordion-collapse collapse show" data-bs-parent="#permissionsAccordion">
+                    <div class="accordion-body">
+                        <div class="row">
+                            @foreach ($groupPermissions as $permission)
+                                <div class="col-md-4 mb-2">
+                                    <div class="form-check form-switch">
+                                        <input 
+                                            class="form-check-input" 
+                                            type="checkbox" 
+                                            name="permissions[]" 
+                                            value="{{ $permission->id }}" 
+                                            id="permission-{{ $permission->id }}">
+                                        <label class="form-check-label" for="permission-{{ $permission->id }}">
+                                            {{ $permission->name }}
+                                        </label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
         @endforeach
@@ -57,7 +74,6 @@
         <small class="text-danger">{{ $message }}</small>
     @enderror
 </div>
-s
 
                             <!-- Permissions Multi-select -->
                             <!-- <div class="col-md-6 mb-3">

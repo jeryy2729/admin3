@@ -11,7 +11,7 @@
 
             {{-- Main Content --}}
             <div class="col-md-9 px-4 py-5 bg-white">
-                <h2 class="mb-5 text-center fw-bold text-primary">🎯 Explore Popular Tags</h2>
+                <h2 class="mb-5 text-center fw-bold text-primary">🎯 {{ __('messages.explore_tags') }}</h2>
 
                 @if($tags->count())
                     <div class="row">

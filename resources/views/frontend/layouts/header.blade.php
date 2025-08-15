@@ -142,12 +142,12 @@
                         </a>
 <div class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3">
     <a class="dropdown-item" href="{{ route('profile.edit') }}">
-        <i class="fas fa-user-circle me-2 text-primary"></i> Edit Profile
+        <i class="fas fa-user-circle me-2 text-primary"></i> {{__('messages.edit_profile')}}
     </a>
 
     <a class="dropdown-item text-danger" href="{{ route('logout') }}"
         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        <i class="fas fa-sign-out-alt me-2 text-danger"></i> Logout
+        <i class="fas fa-sign-out-alt me-2 text-danger"></i> {{__('messages.logout')}}
     </a>
 
     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

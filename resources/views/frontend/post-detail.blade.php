@@ -8,13 +8,13 @@
             <div class="col-12">
                 @if($from === 'category' && $post->category)
                     <x-breadcrumbs :items="[
-                        'Categories' => route('frontend.categories'),
+                        __('messages.category') => route('frontend.categories'),
                         $category->name => route('frontend.posts.show', $category->slug),
                         $post->name => ''
                     ]" />
                 @elseif($from === 'tag' && $tag)
                     <x-breadcrumbs :items="[
-                        'Tags' => route('frontend.tags'),
+    __('messages.tag') => route('frontend.tags'),
                         $tag->name => route('frontend.tag-post', $tag->slug),
                         $post->name => ''
                     ]" />

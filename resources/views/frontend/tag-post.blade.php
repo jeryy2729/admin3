@@ -5,7 +5,7 @@
     <div class="container-fluid px-0">
         <div class="row g-0">
 <x-breadcrumbs :items="[
-    'tags' => route('frontend.tags'),
+    __('messages.tag') => route('frontend.tags'),
     $tag->name => ''
 ]" />
 

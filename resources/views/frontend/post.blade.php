@@ -5,7 +5,8 @@
     <div class="container-fluid px-0">
         <div class="row g-0">
 <x-breadcrumbs :items="[
-    'Categories' => route('frontend.categories'),
+     __('messages.category') => route('frontend.categories'),
+
     $category->name => ''
 ]" />
 

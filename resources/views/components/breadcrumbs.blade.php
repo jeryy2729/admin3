@@ -3,7 +3,7 @@
 <nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb bg-white px-3 py-2 rounded shadow-sm">
         <li class="breadcrumb-item">
-            <a href="{{ route('frontend.index') }}" class="text-decoration-none text-primary">Home</a>
+            <a href="{{ route('frontend.index') }}" class="text-decoration-none text-primary">{{__('messages.home')}}</a>
         </li>
 
         @foreach ($items as $label => $url)

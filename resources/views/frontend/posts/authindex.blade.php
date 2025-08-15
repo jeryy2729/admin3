@@ -4,7 +4,7 @@
 <div class="main-wrapper">
     <div class="container-fluid px-0">
         <div class="row g-0">
-<x-breadcrumbs :items="['Posts' => '']" />
+<x-breadcrumbs :items="[__('messages.post') => '']" />
 
             {{-- Sidebar --}}
             @include('frontend.layouts.sidebar')
@@ -12,9 +12,9 @@
             {{-- Main Content --}}
             <div class="col-md-9 px-4 py-5 bg-light">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="fw-bold text-primary">📋 My Posts</h2>
+                    <h2 class="fw-bold text-primary">📋 {{__('messages.my_posts')}}</h2>
                     <a href="{{ route('user.posts.create') }}" class="btn btn-success rounded-pill px-4">
-                        <i class="fas fa-plus me-1"></i> Create New Post
+                        <i class="fas fa-plus me-1"></i> {{__('messages.create_post')}}
                     </a>
                 </div>
 

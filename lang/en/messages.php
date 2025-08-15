@@ -7,6 +7,17 @@ return[
     'history'=>'History',
         'category'=>'Categories',
         'post'=>'Post',
-        'search'=>'Search'
-
+        'search'=>'Search',
+    'welcome' => 'Welcome To',
+    'intro'=>'Explore powerful ideas, expert tips, and inspiring stories. Stay curious, stay inspired — every day with ',
+    'exploring'=>'Start Exploring',
+    'new'    => "WHAT'S NEW",
+'latest' => 'Latest Posts',
+'explore_tags'=>"Explore Tags",
+'explore_category'=>"Explore Categories",
+'my_posts'=>'My Posts',
+'create_post'=>'Create new Post',
+'edit_profile'=>"Edit Profile",
+'logout'=>'Logout',
+'product'=>'Products',
 ];

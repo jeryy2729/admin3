@@ -14,13 +14,16 @@
                     <section class="py-5 bg-gradient-primary border-bottom text-center text-white rounded-4 shadow-sm" style="background: linear-gradient(to right, #f96d41, #ffa751);">
                         <div class="container">
                             <h2 class="fw-bold mb-3 display-5">
-                                ✨ Welcome to <span style="text-shadow: 1px 1px 5px #fff;">MegaKit</span>
+                                ✨             {{ __('messages.welcome') }}
+ <span style="text-shadow: 1px 1px 5px #fff;">MegaKit</span>
                             </h2>
                             <p class="lead mx-auto" style="max-width: 800px;">
-                                <i class="fas fa-lightbulb me-2"></i>Explore powerful ideas, expert tips, and inspiring stories. Stay curious, stay inspired — every day with <strong>MegaKit</strong>!
+                                <i class="fas fa-lightbulb me-2"></i>{{ __('messages.intro') }}
+ <strong>MegaKit</strong>!
                             </p>
                             <a href="#posts" class="btn btn-light mt-3 px-4 py-2 shadow rounded-pill">
-                                <i class="fas fa-arrow-down me-1"></i> Start Exploring
+                                <i class="fas fa-arrow-down me-1"></i> {{ __('messages.exploring') }}
+
                             </a>
                         </div>
                     </section>
@@ -28,8 +31,8 @@
                     <!-- 📝 Posts Section -->
                     <section id="posts" class="mb-5 mt-4">
                         <div class="text-center mb-4">
-                            <span class="h5 text-color text-uppercase">🔥 What’s New</span>
-                            <h3 class="fw-bold mt-2" style="color: #f96d41;">Latest Posts</h3>
+                            <span class="h5 text-color text-uppercase">🔥 {{ __('messages.new') }}</span>
+                            <h3 class="fw-bold mt-2" style="color: #f96d41;">{{ __('messages.latest') }}</h3>
                         </div>
 
                         <div class="row">

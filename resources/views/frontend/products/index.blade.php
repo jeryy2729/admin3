@@ -6,7 +6,8 @@
         <div class="row g-0">
             
             {{-- Optional Breadcrumb --}}
-            <x-breadcrumbs :items="['Products' => '']" />
+            <!-- <x-breadcrumbs :items="['Products' => '']" /> -->
+<x-breadcrumbs :items="[__('messages.product') => '']" />
 
             {{-- Sidebar --}}
             @include('frontend.layouts.sidebar')

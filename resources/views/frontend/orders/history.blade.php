@@ -4,7 +4,7 @@
 <div class="main-wrapper">
     <div class="container-fluid px-0">
         <div class="row g-0">
-<x-breadcrumbs :items="['History' => '']" />
+<x-breadcrumbs :items="[__('messages.history') => '']" />
 
             {{-- Sidebar --}}
             @include('frontend.layouts.sidebar')

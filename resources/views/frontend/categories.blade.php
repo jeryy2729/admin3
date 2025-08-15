@@ -4,7 +4,8 @@
 <div class="main-wrapper">
     <div class="container-fluid px-0">
         <div class="row g-0">
-<x-breadcrumbs :items="['Categories' => '']" />
+<!-- <x-breadcrumbs :items="['Categories' => '']" /> -->
+<x-breadcrumbs :items="[__('messages.category') => '']" />
 
             {{-- Sidebar --}}
             @include('frontend.layouts.sidebar')
@@ -20,7 +21,7 @@
                     </div>
                 </form>
 
-                <h2 class="mb-4 fw-bold border-bottom pb-2">Explore Categories</h2>
+                <h2 class="mb-4 fw-bold border-bottom pb-2">{{ __('messages.explore_tags') }}</h2>
 
                 {{-- Categories Grid --}}
                 <div class="row">
