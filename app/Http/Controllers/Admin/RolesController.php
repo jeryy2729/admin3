@@ -27,7 +27,7 @@ class RolesController extends Controller
     // Show form to create a new role
     public function create()
     {
-        $permissions = Permission::all();
+    $permissions = Permission::where('guard_name', 'web')->get();
         return view('admin.roles.create', compact('permissions'));
     }
 
@@ -62,6 +62,8 @@ class RolesController extends Controller
     // Show form to edit an existing role
     public function edit($id)
     {
+            $permissions = Permission::where('guard_name', 'web')->get();
+
         $role = Role::findOrFail($id);
         $permissions = Permission::all();
         $rolePermissions = $role->permissions->pluck('id')->toArray();
